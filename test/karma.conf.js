@@ -20,8 +20,7 @@ module.exports = function(config) {
     files: [
       // bower:js
       'bower_components/angular/angular.js',
-      'bower_components/angular-aria/angular-aria.js',
-      'bower_components/angular-sanitize/angular-sanitize.js',
+      'bower_components/video.js/dist/video-js/video.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'app/scripts/**/*.js',

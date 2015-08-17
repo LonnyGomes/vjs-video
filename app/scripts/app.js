@@ -10,6 +10,4 @@
  */
 angular
   .module('vjsVideoApp', [
-    'ngAria',
-    'ngSanitize'
   ]);
