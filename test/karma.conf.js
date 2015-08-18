@@ -22,6 +22,7 @@ module.exports = function(config) {
       'bower_components/angular/angular.js',
       'bower_components/video.js/dist/video-js/video.js',
       'bower_components/angular-mocks/angular-mocks.js',
+      'bower_components/sinonjs/sinon.js',
       // endbower
       'app/scripts/**/*.js',
       'test/mock/**/*.js',
