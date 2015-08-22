@@ -9,6 +9,6 @@
  * Main module of the application.
  */
 angular
-  .module('vjsVideoApp', [
-    'vjs.video'
-  ]);
+    .module('vjsVideoApp', [
+        'vjs.video'
+    ]);
