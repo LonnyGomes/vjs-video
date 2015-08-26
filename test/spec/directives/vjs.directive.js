@@ -1,6 +1,7 @@
-'use strict';
+/*global describe, beforeEach, module, inject, it, angular, expect */
 
 describe('Directive: vjs.directive.js', function () {
+    'use strict';
 
     // load the directive's module
     beforeEach(module('vjsVideoApp'));
