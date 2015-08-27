@@ -6,7 +6,8 @@ describe('Directive: vjs.directive.js', function () {
     // load the directive's module
     beforeEach(module('vjsVideoApp'));
 
-    var nonVidStr = "<div vjs-video>",
+    var vidStr = "<video></video>",
+        nonVidStr = "<div vjs-video>",
         scope,
         $compile;
 
@@ -24,10 +25,13 @@ describe('Directive: vjs.directive.js', function () {
         return el;
     }
 
-    it('should make hidden element visible', inject(function ($compile) {
-
+    it('should throw an error if not attached to a video tag', function () {
         expect(function () {
             var el = compileAndLink(nonVidStr, scope);
         }).to.throw(Error);
-    }));
+
+        expect(function () {
+            var el = compileAndLink(vidStr, scope);
+        }).to.not.throw(Error);
+    });
 });
