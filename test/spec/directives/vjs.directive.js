@@ -34,4 +34,16 @@ describe('Directive: vjs.directive.js', function () {
             var el = compileAndLink(vidStr, scope);
         }).to.not.throw(Error);
     });
+
+    it('should throw an error if videojs is not loaded', function () {
+        expect(function () {
+            var vjs = window.videojs,
+                el;
+
+            window.videojs = undefined;
+            el = compileAndLink(vidStr, scope);
+            //window.videojs = vjs;
+            console.log('window.videojs:', window.videojs);
+        }).to.throw(Error);
+    });
 });
