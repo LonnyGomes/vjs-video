@@ -6,7 +6,7 @@ describe('Directive: vjs.directive.js', function () {
     // load the directive's module
     beforeEach(module('vjsVideoApp'));
 
-    var vidStr = "<video></video>",
+    var vidStr = "<video vjs-video></video>",
         nonVidStr = "<div vjs-video>",
         scope,
         $compile;
@@ -42,8 +42,7 @@ describe('Directive: vjs.directive.js', function () {
 
             window.videojs = undefined;
             el = compileAndLink(vidStr, scope);
-            //window.videojs = vjs;
-            console.log('window.videojs:', window.videojs);
+            window.videojs = vjs;
         }).to.throw(Error);
     });
 });
