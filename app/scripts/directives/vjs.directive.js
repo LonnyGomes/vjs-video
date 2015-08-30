@@ -16,13 +16,13 @@ angular.module('vjs.video', [])
             link: function postLink(scope, element, attrs, ctrl, transclude) {
                 var vid = null;
                 if (!window.videojs) {
-                    throw new Error('directive must be attached to a video tag!');
+                    throw new Error('video.js was not found!');
                 }
 
                 if (element[0].nodeName === 'VIDEO') {
                     vid = element[0];
                 } else {
-                    throw new Error('video.js was not found!');
+                    throw new Error('directive must be attached to a video tag!');
                 }
 
                 //attach transcluded content
