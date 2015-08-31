@@ -36,6 +36,9 @@ describe('Directive: vjs.directive.js', function () {
     });
 
     it('should throw an error if videojs is not loaded', function () {
+        //TOOD: currently, this must be the last test
+        //      because it destroys the reference to videojs
+        //      find a way to fix that
         expect(function () {
             var vjs = window.videojs,
                 el;
