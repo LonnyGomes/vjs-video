@@ -1,5 +1,6 @@
 {
   "name": "vjsvideo",
+  "version": "0.1.0",
   "private": true,
   "devDependencies": {
     "chai": "^3.2.0",
