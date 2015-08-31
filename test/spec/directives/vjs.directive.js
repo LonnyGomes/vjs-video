@@ -7,6 +7,7 @@ describe('Directive: vjs.directive.js', function () {
     beforeEach(module('vjsVideoApp'));
 
     var vidStr = "<video vjs-video></video>",
+        multipleVidStr = "<div><video vjs-video></video><video vjs-video></video></div>",
         nonVidStr = "<div vjs-video>",
         scope,
         $compile;
@@ -24,6 +25,18 @@ describe('Directive: vjs.directive.js', function () {
 
         return el;
     }
+
+    it('should attach videojs to the video tag', function () {
+        //videojs should add at vjs-tech class to the element
+        var el = compileAndLink(vidStr, scope);
+        expect(el.hasClass('vjs-tech')).to.be.true;
+    });
+
+    it('should attach videojs to multiple video tags', function () {
+        //videojs should add at vjs-tech class to the element
+        var el = compileAndLink(multipleVidStr, scope);
+        expect(el[0].querySelectorAll('.vjs-tech').length).to.equal(2);
+    });
 
     it('should throw an error if not attached to a video tag', function () {
         expect(function () {
