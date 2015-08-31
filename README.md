@@ -1,5 +1,7 @@
 # vjs-video
 
+[![Build Status](https://travis-ci.org/LonnyGomes/vjs-video.svg)](https://travis-ci.org/LonnyGomes/vjs-video)
+
 An angular js directive for video.js
 
 
