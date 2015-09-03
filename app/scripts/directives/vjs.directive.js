@@ -6,10 +6,12 @@
  * @description
  * # vjs.directive.js
  */
-angular.module('vjs.video', [])
-    .directive('vjsVideo', function () {
-        'use strict';
+(function () {
+    'use strict';
 
+    var module = angular.module('vjs.video', []);
+
+    module.directive('vjsVideo', function () {
         return {
             restrict: 'A',
             transclude: true,
@@ -45,3 +47,4 @@ angular.module('vjs.video', [])
             }
         };
     });
+}());
