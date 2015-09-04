@@ -11,21 +11,27 @@
 
     var module = angular.module('vjs.video', []);
 
+    function getVidElement(element) {
+        var vid = null;
+        if (!window.videojs) {
+            throw new Error('video.js was not found!');
+        }
+
+        if (element[0].nodeName === 'VIDEO') {
+            vid = element[0];
+        } else {
+            throw new Error('directive must be attached to a video tag!');
+        }
+
+        return vid;
+    }
+
     module.directive('vjsVideo', function () {
         return {
             restrict: 'A',
             transclude: true,
             link: function postLink(scope, element, attrs, ctrl, transclude) {
-                var vid = null;
-                if (!window.videojs) {
-                    throw new Error('video.js was not found!');
-                }
-
-                if (element[0].nodeName === 'VIDEO') {
-                    vid = element[0];
-                } else {
-                    throw new Error('directive must be attached to a video tag!');
-                }
+                var vid = getVidElement(element);
 
                 //attach transcluded content
                 transclude(function (content) {
