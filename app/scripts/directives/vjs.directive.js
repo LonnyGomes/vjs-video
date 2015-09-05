@@ -26,10 +26,31 @@
         return vid;
     }
 
+    function initVideoJs(vid, scope, setupOptions) {
+        var opts = setupOptions || {};
+
+        if (!window.videojs) {
+            return null;
+        }
+
+        //bootstrap videojs
+        window.videojs(vid, opts, function () {
+
+        });
+
+        //dispose of videojs before destroying directive
+        scope.$on('$destroy', function () {
+            window.videojs(vid).dispose();
+        });
+    }
+
     module.directive('vjsVideo', function () {
         return {
             restrict: 'A',
             transclude: true,
+            scope: {
+                vjsSetup: '='
+            },
             link: function postLink(scope, element, attrs, ctrl, transclude) {
                 var vid = getVidElement(element);
 
@@ -38,18 +59,7 @@
                     element.append(content);
                 });
 
-                //bootstrap videojs
-                window.videojs(vid, {
-                    //options
-                }, function () {
-
-                });
-
-                //dispose of videojs before destroying directive
-                scope.$on('$destroy', function () {
-                    window.videojs(vid).dispose();
-                });
-
+                initVideoJs(vid, scope, scope.vjsSetup);
             }
         };
     });
