@@ -8,10 +8,14 @@
  * Controller of the vjsVideoApp
  */
 angular.module('vjsVideoApp')
-    .controller('MainCtrl', function () {
+    .controller('MainCtrl', ['$scope', function (scope) {
         this.awesomeThings = [
             'HTML5 Boilerplate',
             'AngularJS',
             'Karma'
         ];
-    });
+
+        scope.options = {
+            loop: true
+        };
+    }]);
