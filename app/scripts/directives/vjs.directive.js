@@ -20,7 +20,7 @@
         }
 
         if (isContainer) {
-            videos = element.getElementsByTagName("video");
+            videos = element[0].getElementsByTagName('video');
             if (videos.length === 0) {
                 throw new Error('video tag must be defined within container directive!');
             } else if (videos.length > 1) {
@@ -28,7 +28,6 @@
             }
 
             vid = videos[0];
-
         } else {
             if (element[0].nodeName === 'VIDEO') {
                 vid = element[0];
