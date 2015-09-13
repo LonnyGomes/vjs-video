@@ -9,6 +9,8 @@ describe('Directive: vjs.directive.js', function () {
     var vidStr = "<video vjs-video></video>",
         multipleVidStr = "<div><video vjs-video></video><video vjs-video></video></div>",
         nonVidStr = "<div vjs-video>",
+        vidContainerStr = "<div vjs-video-container><video></video></div>",
+        vidElementContainerStr = "<vjs-video-container><video></video></vjs-video-container>",
         nonVidContainerStr = "<div vjs-video-container></div>",
         multVidsContainerStr = "<div vjs-video-container><video></video><video></video></div>",
         scope,
@@ -47,7 +49,7 @@ describe('Directive: vjs.directive.js', function () {
         it('should throw an error if not attached to a video tag', function () {
             expect(function () {
                 var el = compileAndLink(nonVidStr, scope);
-            }).to.throw(Error);
+            }).throws(Error);
 
             expect(function () {
                 var el = compileAndLink(vidStr, scope);
@@ -69,6 +71,18 @@ describe('Directive: vjs.directive.js', function () {
                 compileAndLink(multVidsContainerStr, scope);
             }).throws(Error, 'only one video can be defined within the container directive!');
         });
+
+        it('should attach videojs to the video tag', function () {
+            //videojs should add at vjs-tech class to the element
+            var el = compileAndLink(vidContainerStr, scope);
+            expect(el.find('video').hasClass('vjs-tech')).to.be.true;
+        });
+
+        it('should register as the vjs-video-container element', function () {
+            //videojs should add at vjs-tech class to the element
+            var el = compileAndLink(vidElementContainerStr, scope);
+            expect(el.find('video').hasClass('vjs-tech')).to.be.true;
+        });
     });
 
     describe('missing library', function () {
@@ -83,7 +97,7 @@ describe('Directive: vjs.directive.js', function () {
                 window.videojs = undefined;
                 el = compileAndLink(vidStr, scope);
                 window.videojs = vjs;
-            }).to.throw(Error);
+            }).throws(Error);
         });
     });
 });
