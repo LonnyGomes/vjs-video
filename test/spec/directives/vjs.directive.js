@@ -9,8 +9,13 @@ describe('Directive: vjs.directive.js', function () {
     var vidStr = "<video vjs-video></video>",
         multipleVidStr = "<div><video vjs-video></video><video vjs-video></video></div>",
         nonVidStr = "<div vjs-video>",
+        nonVidContainerStr = "<div vjs-video-container></div>",
+        multVidsContainerStr = "<div vjs-video-container><video></video><video></video></div>",
         scope,
         $compile;
+
+    //load templates
+    beforeEach(module('scripts/directives/vjs.container.html'));
 
     beforeEach(inject(function ($rootScope, _$compile_) {
         scope = $rootScope.$new();
@@ -53,8 +58,17 @@ describe('Directive: vjs.directive.js', function () {
     });
 
     describe('vjs-video-container', function () {
-        it('should throw an error if container does not have a video tag defined');
-        it('should throw an error if container defines more than one video tag');
+        it('should throw an error if container does not have a video tag defined', function () {
+            expect(function () {
+                var el = compileAndLink(nonVidContainerStr, scope);
+            }).throws(Error, 'video tag must be defined within container directive!');
+        });
+
+        it('should throw an error if container defines more than one video tag', function () {
+            expect(function () {
+                compileAndLink(multVidsContainerStr, scope);
+            }).throws(Error, 'only one video can be defined within the container directive!');
+        });
     });
 
     describe('missing library', function () {
