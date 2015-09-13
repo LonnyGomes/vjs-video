@@ -26,39 +26,50 @@ describe('Directive: vjs.directive.js', function () {
         return el;
     }
 
-    it('should attach videojs to the video tag', function () {
-        //videojs should add at vjs-tech class to the element
-        var el = compileAndLink(vidStr, scope);
-        expect(el.hasClass('vjs-tech')).to.be.true;
-    });
-
-    it('should attach videojs to multiple video tags', function () {
-        //videojs should add at vjs-tech class to the element
-        var el = compileAndLink(multipleVidStr, scope);
-        expect(el[0].querySelectorAll('.vjs-tech').length).to.equal(2);
-    });
-
-    it('should throw an error if not attached to a video tag', function () {
-        expect(function () {
-            var el = compileAndLink(nonVidStr, scope);
-        }).to.throw(Error);
-
-        expect(function () {
+    describe('vjs-video', function () {
+        it('should attach videojs to the video tag', function () {
+            //videojs should add at vjs-tech class to the element
             var el = compileAndLink(vidStr, scope);
-        }).to.not.throw(Error);
+            expect(el.hasClass('vjs-tech')).to.be.true;
+        });
+
+        it('should attach videojs to multiple video tags', function () {
+            //videojs should add at vjs-tech class to the element
+            var el = compileAndLink(multipleVidStr, scope);
+            expect(el[0].querySelectorAll('.vjs-tech').length).to.equal(2);
+        });
+
+        it('should throw an error if not attached to a video tag', function () {
+            expect(function () {
+                var el = compileAndLink(nonVidStr, scope);
+            }).to.throw(Error);
+
+            expect(function () {
+                var el = compileAndLink(vidStr, scope);
+            }).to.not.throw(Error);
+        });
+
+
     });
 
-    it('should throw an error if videojs is not loaded', function () {
-        //TOOD: currently, this must be the last test
-        //      because it destroys the reference to videojs
-        //      find a way to fix that
-        expect(function () {
-            var vjs = window.videojs,
-                el;
+    describe('vjs-video-container', function () {
+        it('should throw an error if container does not have a video tag defined');
+        it('should throw an error if container defines more than one video tag');
+    });
 
-            window.videojs = undefined;
-            el = compileAndLink(vidStr, scope);
-            window.videojs = vjs;
-        }).to.throw(Error);
+    describe('missing library', function () {
+        it('should throw an error if videojs is not loaded', function () {
+            //TOOD: currently, this must be the last test
+            //      because it destroys the reference to videojs
+            //      find a way to fix that
+            expect(function () {
+                var vjs = window.videojs,
+                    el;
+
+                window.videojs = undefined;
+                el = compileAndLink(vidStr, scope);
+                window.videojs = vjs;
+            }).to.throw(Error);
+        });
     });
 });
