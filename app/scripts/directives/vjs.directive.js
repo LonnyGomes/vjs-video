@@ -57,6 +57,26 @@
         });
     }
 
+    function applyRatio(el, ratioVal) {
+        var ratio = ratioVal,
+            style = document.createElement('style'),
+            css = '.video-js {padding-top: 41.25%;}\n.vjs-fullscreen {padding-top: 0px}';
+
+        if (!ratio) {
+            ratio = 'wide';
+        }
+
+        style.type = 'text/css';
+        style.rel = 'stylesheet';
+        if (style.styleSheet) {
+            style.styleSheet.cssText = css;
+        } else {
+            style.appendChild(document.createTextNode(css));
+        }
+
+        document.head.appendChild(style);
+    }
+
     module.directive('vjsVideo', function () {
         return {
             restrict: 'A',
@@ -83,11 +103,21 @@
             transclude: true,
             templateUrl: 'scripts/directives/vjs.container.html',
             scope: {
-                vjsSetup: '='
+                vjsSetup: '=',
+                vjsRatio: '@'
             },
             link: function postLink(scope, element, attrs, ctrl) {
-                var vid = getVidElement(element, true);
+                var vid = getVidElement(element, true),
+                    ratio = scope.vjsRatio;
 
+                //set width and height of video to auto
+                vid.setAttribute('width', 'auto');
+                vid.setAttribute('height', 'auto');
+
+                //apply ratio to element
+                applyRatio(element, ratio);
+
+                //bootstrap video js
                 initVideoJs(vid, scope, scope.vjsSetup);
             }
         };
