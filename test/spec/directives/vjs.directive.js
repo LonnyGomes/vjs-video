@@ -14,6 +14,12 @@ describe('Directive: vjs.directive.js', function () {
         nonVidContainerStr = "<div vjs-video-container></div>",
         multVidsContainerStr = "<div vjs-video-container><video></video><video></video></div>",
         //vidContainerWithDimsStr = "<div vjs-video-container><video width='320' height='320'></video></div>",
+        vidRatioCharStr = "<div vjs-video-container vjs-ratio='asdf'><video></video></div>",
+        vidRatioInvalidStr = "<div vjs-video-container vjs-ratio='1920/1080/720'><video></video></div>",
+        vidRatioInvalidWStr = "<div vjs-video-container vjs-ratio='O/1080'><video></video></div>",
+        vidRatioInvalidHStr = "<div vjs-video-container vjs-ratio='1080/*'><video></video></div>",
+        vidRatioHeightZeroStr = "<div vjs-video-container vjs-ratio='0/640'><video></video></div>",
+        vidRatioWidthZeroStr = "<div vjs-video-container vjs-ratio='640/0'><video></video></div>",
         scope,
         $compile;
 
@@ -93,6 +99,47 @@ describe('Directive: vjs.directive.js', function () {
 //            expect(vid.attr('height')).to.equal('auto');
 //
 //        });
+
+        describe('vjs-ratio', function () {
+            var ratioErrMsg = 'the ratio must either be "wide", "standard" or decimal values in the format of w/h',
+                ratioZeroErrMsg = 'neither the width or height ratio can be zero!';
+
+            it('should throw an error if an invalid string is provided', function () {
+                expect(function () {
+                    var el = compileAndLink(vidRatioCharStr, scope);
+                }).to.throw(Error, ratioErrMsg);
+            });
+
+            it('should throw an error if invalid ratio is supplied', function () {
+                expect(function () {
+                    var el = compileAndLink(vidRatioInvalidStr, scope);
+                }).to.throw(Error, ratioErrMsg);
+            });
+
+            it('should throw an error if width is a string', function () {
+                expect(function () {
+                    var el = compileAndLink(vidRatioInvalidWStr, scope);
+                }).to.throw(Error, ratioErrMsg);
+            });
+
+            it('should throw an error if height is a string', function () {
+                expect(function () {
+                    var el = compileAndLink(vidRatioInvalidHStr, scope);
+                }).to.throw(Error, ratioErrMsg);
+            });
+
+            it('should throw an error if width is zero', function () {
+                expect(function () {
+                    var el = compileAndLink(vidRatioWidthZeroStr, scope);
+                }).to.throw(Error, ratioZeroErrMsg);
+            });
+
+            it('should throw an error if height is zero', function () {
+                expect(function () {
+                    var el = compileAndLink(vidRatioHeightZeroStr, scope);
+                }).to.throw(Error, ratioZeroErrMsg);
+            });
+        });
     });
 
     describe('missing library', function () {
