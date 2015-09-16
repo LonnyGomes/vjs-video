@@ -60,11 +60,49 @@
     function applyRatio(el, ratioVal) {
         var ratio = ratioVal,
             style = document.createElement('style'),
-            css = '.video-js {padding-top: 41.25%;}\n.vjs-fullscreen {padding-top: 0px}';
+            parseRatio = function (r) {
+                var tokens = r.split('/'),
+                    tokenErrorMsg = 'the ratio must either be "wide", "standard" or ' +
+                                    'decimal values in the format of w/h';
 
+                //if invalid ratio throw an error
+                if (tokens.length !== 2) {
+                    throw new Error(tokenErrorMsg);
+                }
+
+                //confirm that both tokens are numbers
+                if (isNaN(tokens[0]) || isNaN(tokens[1])) {
+                    throw new Error(tokenErrorMsg);
+                }
+
+                //confirm that the width or height is not zero
+                if (Number(tokens[0]) === 0 || Number(tokens[1]) === 0) {
+                    throw new Error('neither the width or height ratio can be zero!');
+                }
+
+                return (Number(tokens[1]) / Number(tokens[0])) * 100;
+            },
+            ratioPercentage,
+            css;
+
+        //if ratio isn't defined lets default to wide screen
         if (!ratio) {
-            ratio = 'wide';
+            ratio = '16/9';
         }
+
+        switch (ratio) {
+        case 'wide':
+            ratio = '16/9';
+            break;
+        case 'standard':
+            ratio = '4/3';
+            break;
+        }
+
+        ratioPercentage = parseRatio(ratio);
+
+        css = ['.video-js {padding-top:', ratioPercentage,
+               '%;}\n', 'vjs-fullscreen {padding-top: 0px}'].join('');
 
         style.type = 'text/css';
         style.rel = 'stylesheet';
