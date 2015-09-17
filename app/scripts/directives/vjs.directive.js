@@ -82,6 +82,16 @@
 
                 return (Number(tokens[1]) / Number(tokens[0])) * 100;
             },
+            genContainerId = function (element) {
+                var container = element[0].querySelector('.video-js'),
+                    vjsId = 'vjs-container-' + container.getAttribute('id');
+
+                //add generated id to container
+                element[0].setAttribute('id', vjsId);
+
+                return vjsId;
+            },
+            containerId,
             ratioPercentage,
             css;
 
@@ -99,10 +109,13 @@
             break;
         }
 
+        containerId = genContainerId(el);
+
         ratioPercentage = parseRatio(ratio);
 
-        css = ['.video-js {padding-top:', ratioPercentage,
-               '%;}\n', 'vjs-fullscreen {padding-top: 0px}'].join('');
+        css = ['#', containerId, ' ',
+               '.video-js {padding-top:', ratioPercentage,
+               '%;}\n', '.vjs-fullscreen {padding-top: 0px;}'].join('');
 
         style.type = 'text/css';
         style.rel = 'stylesheet';
@@ -112,7 +125,7 @@
             style.appendChild(document.createTextNode(css));
         }
 
-        document.head.appendChild(style);
+        el[0].appendChild(style);
     }
 
     module.directive('vjsVideo', function () {
@@ -152,11 +165,11 @@
                 vid.setAttribute('width', 'auto');
                 vid.setAttribute('height', 'auto');
 
-                //apply ratio to element
-                applyRatio(element, ratio);
-
                 //bootstrap video js
                 initVideoJs(vid, scope, scope.vjsSetup);
+
+                //apply ratio to element
+                applyRatio(element, ratio);
             }
         };
     });
