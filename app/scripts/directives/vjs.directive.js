@@ -39,8 +39,9 @@
         return vid;
     }
 
-    function initVideoJs(vid, scope, setupOptions) {
-        var opts = setupOptions || {};
+    function initVideoJs(vid, scope, element) {
+        var opts = scope.vjsSetup || {},
+            ratio = scope.vjsRatio;
 
         if (!window.videojs) {
             return null;
@@ -48,7 +49,9 @@
 
         //bootstrap videojs
         window.videojs(vid, opts, function () {
-
+            if (element[0].nodeName !== 'VIDEO') {
+                applyRatio(element, ratio);
+            }
         });
 
         //dispose of videojs before destroying directive
@@ -84,7 +87,14 @@
             },
             genContainerId = function (element) {
                 var container = element[0].querySelector('.video-js'),
+                    vjsId;
+
+                if (container) {
                     vjsId = 'vjs-container-' + container.getAttribute('id');
+                } else {
+                    //vjsId = 'vjs-container-default';
+                    throw new Error('Failed to find instance of video-js class!');
+                }
 
                 //add generated id to container
                 element[0].setAttribute('id', vjsId);
@@ -143,7 +153,7 @@
                     element.append(content);
                 });
 
-                initVideoJs(vid, scope, scope.vjsSetup);
+                initVideoJs(vid, scope, element);
             }
         };
     });
@@ -166,10 +176,10 @@
                 vid.setAttribute('height', 'auto');
 
                 //bootstrap video js
-                initVideoJs(vid, scope, scope.vjsSetup);
+                initVideoJs(vid, scope, element);
 
                 //apply ratio to element
-                applyRatio(element, ratio);
+                //applyRatio(element, ratio);
             }
         };
     });
