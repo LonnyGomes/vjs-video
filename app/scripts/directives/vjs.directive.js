@@ -39,27 +39,6 @@
         return vid;
     }
 
-    function initVideoJs(vid, scope, element) {
-        var opts = scope.vjsSetup || {},
-            ratio = scope.vjsRatio;
-
-        if (!window.videojs) {
-            return null;
-        }
-
-        //bootstrap videojs
-        window.videojs(vid, opts, function () {
-            if (element[0].nodeName !== 'VIDEO') {
-                applyRatio(element, ratio);
-            }
-        });
-
-        //dispose of videojs before destroying directive
-        scope.$on('$destroy', function () {
-            window.videojs(vid).dispose();
-        });
-    }
-
     function applyRatio(el, ratioVal) {
         var ratio = ratioVal,
             style = document.createElement('style'),
@@ -136,6 +115,27 @@
         }
 
         el[0].appendChild(style);
+    }
+
+    function initVideoJs(vid, scope, element) {
+        var opts = scope.vjsSetup || {},
+            ratio = scope.vjsRatio;
+
+        if (!window.videojs) {
+            return null;
+        }
+
+        //bootstrap videojs
+        window.videojs(vid, opts, function () {
+            if (element[0].nodeName !== 'VIDEO') {
+                applyRatio(element, ratio);
+            }
+        });
+
+        //dispose of videojs before destroying directive
+        scope.$on('$destroy', function () {
+            window.videojs(vid).dispose();
+        });
     }
 
     module.directive('vjsVideo', function () {
