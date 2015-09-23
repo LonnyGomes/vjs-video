@@ -133,6 +133,9 @@
                 if (element[0].nodeName !== 'VIDEO') {
                     applyRatio(element, ratio);
                 }
+
+                //emit ready event with reference to video
+                $scope.$emit('vjsVideoReady', {vid: this});
             });
 
             //dispose of videojs before destroying directive

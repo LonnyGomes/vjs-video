@@ -18,4 +18,8 @@ angular.module('vjsVideoApp')
         scope.options = {
             loop: true
         };
+
+        scope.$on('vjsVideoReady', function (e, data) {
+            console.log('Received vjs instance:', data.vid);
+        });
     }]);
