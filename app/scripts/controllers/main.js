@@ -1,5 +1,4 @@
-'use strict';
-
+/*global angular */
 /**
  * @ngdoc function
  * @name vjsVideoApp.controller:MainCtrl
@@ -9,6 +8,7 @@
  */
 angular.module('vjsVideoApp')
     .controller('MainCtrl', ['$scope', function (scope) {
+        'use strict';
         this.awesomeThings = [
             'HTML5 Boilerplate',
             'AngularJS',
@@ -20,6 +20,6 @@ angular.module('vjsVideoApp')
         };
 
         scope.$on('vjsVideoReady', function (e, data) {
-            console.log('Received vjs instance:', data);
+            //data contains `id` and `vid`
         });
     }]);
