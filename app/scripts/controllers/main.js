@@ -20,6 +20,6 @@ angular.module('vjsVideoApp')
         };
 
         scope.$on('vjsVideoReady', function (e, data) {
-            console.log('Received vjs instance:', data.vid);
+            console.log('Received vjs instance:', data);
         });
     }]);

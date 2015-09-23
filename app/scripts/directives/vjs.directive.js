@@ -135,7 +135,10 @@
                 }
 
                 //emit ready event with reference to video
-                $scope.$emit('vjsVideoReady', {vid: this});
+                $scope.$emit('vjsVideoReady', {
+                    id: vid.getAttribute('id'),
+                    vid: this
+                });
             });
 
             //dispose of videojs before destroying directive
