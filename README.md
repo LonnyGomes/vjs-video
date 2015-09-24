@@ -63,6 +63,21 @@ The following example wraps a video.js instance within a responsive container wi
 </vjs-video-container>
 ```
 
+## Getting a reference to the videojs instance
+
+The vjs directives dispatch an event after initialization. It can be accessed by listening on the scope for the `vjsVideoReady` event.
+
+```
+angular.module('app')
+    .controller('MainCtrl', ['$scope', function (scope) {
+        scope.$on('vjsVideoReady', function (e, data) {
+            //data contains `id` and `vid`
+            console.log('video id:' + data.id);
+            console.log('video.js instance:' + data.vid);
+        });
+    }]);
+```
+
 ## Build & development
 
 Run `grunt` for building and `grunt serve` for preview.
