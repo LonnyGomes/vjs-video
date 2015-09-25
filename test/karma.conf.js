@@ -52,7 +52,7 @@ module.exports = function(config) {
       'Chrome'
     ],
 
-    reporters: ['progress'],
+    reporters: ['mocha'],
 
     // Continuous Integration mode
     // if true, it capture browsers, run tests and exit

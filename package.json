@@ -32,6 +32,7 @@
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "^0.2.0",
     "karma-mocha": "^0.2.0",
+    "karma-mocha-reporter": "^1.1.1",
     "karma-ng-html2js-preprocessor": "^0.1.2",
     "mocha": "^2.2.5",
     "time-grunt": "^1.0.0"
