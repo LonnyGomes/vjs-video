@@ -6,7 +6,7 @@
 module.exports = function(config) {
   'use strict';
 
-  config.set({
+  var configuration = {
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: true,
 
@@ -73,6 +73,19 @@ module.exports = function(config) {
     ngHtml2JsPreprocessor: {
       // strip this from the file path
       stripPrefix: 'app/'
+    },
+    //configuration to get travis-ci to run Chrome
+    customLaunchers: {
+      Chrome_travis_ci: {
+        base: 'Chrome',
+        flags: ['--no-sandbox']
+      }
     }
-  });
+  };
+
+  if (process.env.TRAVIS) {
+    configuration.browsers = ['Chrome_travis_ci'];
+  }
+
+  config.set(configuration);
 };
