@@ -68,7 +68,7 @@
                     return (Number(tokens[1]) / Number(tokens[0])) * 100;
                 },
                 genContainerId = function (element) {
-                    var container = element[0].querySelector('.video-js'),
+                    var container = element[0].querySelector('.vjs-tech'),
                         vjsId;
 
                     if (container) {
