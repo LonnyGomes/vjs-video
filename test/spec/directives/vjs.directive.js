@@ -7,6 +7,7 @@ describe('Directive: vjs.directive.js', function () {
     beforeEach(module('vjsVideoApp'));
 
     var vidStr = "<video vjs-video></video>",
+        vidWithIdStr = "<video id='vidId' vjs-video></video>",
         multipleVidStr = "<div><video vjs-video></video><video vjs-video></video></div>",
         nonVidStr = "<div vjs-video>",
         vidContainerStr = "<div vjs-video-container><video></video></div>",
@@ -63,6 +64,14 @@ describe('Directive: vjs.directive.js', function () {
             }).to.not.throw(Error);
         });
 
+        it('should dispatch a ready event upon successful load', function (done) {
+            var el;
+            scope.$on('vjsVideoReady', function (e, data) {
+                expect(data.id).to.match(/^vidId/);
+                done();
+            });
+            el = compileAndLink(vidWithIdStr, scope);
+        });
 
     });
 
