@@ -6,7 +6,7 @@
 module.exports = function(config) {
   'use strict';
 
-  config.set({
+  var configuration = {
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: true,
 
@@ -16,6 +16,9 @@ module.exports = function(config) {
     // testing framework to use (jasmine/mocha/qunit/...)
     frameworks:  ['mocha', 'chai'],
 
+    preprocessors: {
+      'app/scripts/**/*.html': ['ng-html2js']
+    },
     // list of files / patterns to load in the browser
     files: [
       // bower:js
@@ -26,7 +29,8 @@ module.exports = function(config) {
       // endbower
       'app/scripts/**/*.js',
       'test/mock/**/*.js',
-      'test/spec/**/*.js'
+      'test/spec/**/*.js',
+      'app/scripts/**/*.html'
     ],
 
     // list of files / patterns to exclude
@@ -45,10 +49,10 @@ module.exports = function(config) {
     // - PhantomJS
     // - IE (only Windows)
     browsers: [
-      'PhantomJS'
+      'Chrome'
     ],
 
-    reporters: ['progress'],
+    reporters: ['mocha'],
 
     // Continuous Integration mode
     // if true, it capture browsers, run tests and exit
@@ -66,5 +70,22 @@ module.exports = function(config) {
     // },
     // URL root prevent conflicts with the site root
     // urlRoot: '_karma_'
-  });
+    ngHtml2JsPreprocessor: {
+      // strip this from the file path
+      stripPrefix: 'app/'
+    },
+    //configuration to get travis-ci to run Chrome
+    customLaunchers: {
+      Chrome_travis_ci: {
+        base: 'Chrome',
+        flags: ['--no-sandbox']
+      }
+    }
+  };
+
+  if (process.env.TRAVIS) {
+    configuration.browsers = ['Chrome_travis_ci'];
+  }
+
+  config.set(configuration);
 };

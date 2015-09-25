@@ -49,6 +49,35 @@ Add the directive to a video tag, using video.js parameters as normal, and it wi
 </video>
 ```
 
+## Using the vjs-video-container directive
+
+The `vjs-container` directive enables responsive scaling of your video-js videos. By default it assumes a wide screen 16/9 ratio however any custom ratio can be supplied.
+
+The following example wraps a video.js instance within a responsive container with a ratio of 4/3.
+
+```
+<vjs-video-container vjs-ratio="4/3">
+    <video class="video-js vjs-default-skin" controls preload="auto" width="640" height="264" poster="poster.jpg">
+        <source src="example_video.mp4" type="video/mp4">
+    </video>
+</vjs-video-container>
+```
+
+## Getting a reference to the videojs instance
+
+The vjs directives dispatch an event after initialization. It can be accessed by listening on the scope for the `vjsVideoReady` event.
+
+```
+angular.module('app')
+    .controller('MainCtrl', ['$scope', function (scope) {
+        scope.$on('vjsVideoReady', function (e, data) {
+            //data contains `id` and `vid`
+            console.log('video id:' + data.id);
+            console.log('video.js instance:' + data.vid);
+        });
+    }]);
+```
+
 ## Build & development
 
 Run `grunt` for building and `grunt serve` for preview.

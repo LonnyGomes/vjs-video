@@ -7,10 +7,25 @@ describe('Directive: vjs.directive.js', function () {
     beforeEach(module('vjsVideoApp'));
 
     var vidStr = "<video vjs-video></video>",
+        vidWithIdStr = "<video id='vidId' vjs-video></video>",
         multipleVidStr = "<div><video vjs-video></video><video vjs-video></video></div>",
         nonVidStr = "<div vjs-video>",
+        vidContainerStr = "<div vjs-video-container><video></video></div>",
+        vidElementContainerStr = "<vjs-video-container><video></video></vjs-video-container>",
+        nonVidContainerStr = "<div vjs-video-container></div>",
+        multVidsContainerStr = "<div vjs-video-container><video></video><video></video></div>",
+        //vidContainerWithDimsStr = "<div vjs-video-container><video width='320' height='320'></video></div>",
+        vidRatioCharStr = "<div vjs-video-container vjs-ratio='asdf'><video></video></div>",
+        vidRatioInvalidStr = "<div vjs-video-container vjs-ratio='1920/1080/720'><video></video></div>",
+        vidRatioInvalidWStr = "<div vjs-video-container vjs-ratio='O/1080'><video></video></div>",
+        vidRatioInvalidHStr = "<div vjs-video-container vjs-ratio='1080/*'><video></video></div>",
+        vidRatioHeightZeroStr = "<div vjs-video-container vjs-ratio='0/640'><video></video></div>",
+        vidRatioWidthZeroStr = "<div vjs-video-container vjs-ratio='640/0'><video></video></div>",
         scope,
         $compile;
+
+    //load templates
+    beforeEach(module('scripts/directives/vjs.container.html'));
 
     beforeEach(inject(function ($rootScope, _$compile_) {
         scope = $rootScope.$new();
@@ -26,39 +41,129 @@ describe('Directive: vjs.directive.js', function () {
         return el;
     }
 
-    it('should attach videojs to the video tag', function () {
-        //videojs should add at vjs-tech class to the element
-        var el = compileAndLink(vidStr, scope);
-        expect(el.hasClass('vjs-tech')).to.be.true;
-    });
-
-    it('should attach videojs to multiple video tags', function () {
-        //videojs should add at vjs-tech class to the element
-        var el = compileAndLink(multipleVidStr, scope);
-        expect(el[0].querySelectorAll('.vjs-tech').length).to.equal(2);
-    });
-
-    it('should throw an error if not attached to a video tag', function () {
-        expect(function () {
-            var el = compileAndLink(nonVidStr, scope);
-        }).to.throw(Error);
-
-        expect(function () {
+    describe('vjs-video', function () {
+        it('should attach videojs to the video tag', function () {
+            //videojs should add at vjs-tech class to the element
             var el = compileAndLink(vidStr, scope);
-        }).to.not.throw(Error);
+            expect(el.hasClass('vjs-tech')).to.be.true;
+        });
+
+        it('should attach videojs to multiple video tags', function () {
+            //videojs should add at vjs-tech class to the element
+            var el = compileAndLink(multipleVidStr, scope);
+            expect(el[0].querySelectorAll('.vjs-tech').length).to.equal(2);
+        });
+
+        it('should throw an error if not attached to a video tag', function () {
+            expect(function () {
+                var el = compileAndLink(nonVidStr, scope);
+            }).throws(Error);
+
+            expect(function () {
+                var el = compileAndLink(vidStr, scope);
+            }).to.not.throw(Error);
+        });
+
+        it('should dispatch a ready event upon successful load', function (done) {
+            var el;
+            scope.$on('vjsVideoReady', function (e, data) {
+                expect(data.id).to.match(/^vidId/);
+                done();
+            });
+            el = compileAndLink(vidWithIdStr, scope);
+        });
+
     });
 
-    it('should throw an error if videojs is not loaded', function () {
-        //TOOD: currently, this must be the last test
-        //      because it destroys the reference to videojs
-        //      find a way to fix that
-        expect(function () {
-            var vjs = window.videojs,
-                el;
+    describe('vjs-video-container', function () {
+        it('should throw an error if container does not have a video tag defined', function () {
+            expect(function () {
+                var el = compileAndLink(nonVidContainerStr, scope);
+            }).throws(Error, 'video tag must be defined within container directive!');
+        });
 
-            window.videojs = undefined;
-            el = compileAndLink(vidStr, scope);
-            window.videojs = vjs;
-        }).to.throw(Error);
+        it('should throw an error if container defines more than one video tag', function () {
+            expect(function () {
+                compileAndLink(multVidsContainerStr, scope);
+            }).throws(Error, 'only one video can be defined within the container directive!');
+        });
+
+        it('should attach videojs to the video tag', function () {
+            //videojs should add at vjs-tech class to the element
+            var el = compileAndLink(vidContainerStr, scope);
+            expect(el.find('video').hasClass('vjs-tech')).to.be.true;
+        });
+
+        it('should register as the vjs-video-container element', function () {
+            //videojs should add at vjs-tech class to the element
+            var el = compileAndLink(vidElementContainerStr, scope);
+            expect(el.find('video').hasClass('vjs-tech')).to.be.true;
+        });
+
+//        it('should set width and height of included video to auto', function () {
+//            var el = compileAndLink(vidContainerWithDimsStr, scope),
+//                vid = el.find('video');
+//
+//            expect(vid.attr('width')).to.equal('auto');
+//            expect(vid.attr('height')).to.equal('auto');
+//
+//        });
+
+        describe('vjs-ratio', function () {
+            var ratioErrMsg = 'the ratio must either be "wide", "standard" or decimal values in the format of w/h',
+                ratioZeroErrMsg = 'neither the width or height ratio can be zero!';
+
+            it('should throw an error if an invalid string is provided', function () {
+                expect(function () {
+                    var el = compileAndLink(vidRatioCharStr, scope);
+                }).to.throw(Error, ratioErrMsg);
+            });
+
+            it('should throw an error if invalid ratio is supplied', function () {
+                expect(function () {
+                    var el = compileAndLink(vidRatioInvalidStr, scope);
+                }).to.throw(Error, ratioErrMsg);
+            });
+
+            it('should throw an error if width is a string', function () {
+                expect(function () {
+                    var el = compileAndLink(vidRatioInvalidWStr, scope);
+                }).to.throw(Error, ratioErrMsg);
+            });
+
+            it('should throw an error if height is a string', function () {
+                expect(function () {
+                    var el = compileAndLink(vidRatioInvalidHStr, scope);
+                }).to.throw(Error, ratioErrMsg);
+            });
+
+            it('should throw an error if width is zero', function () {
+                expect(function () {
+                    var el = compileAndLink(vidRatioWidthZeroStr, scope);
+                }).to.throw(Error, ratioZeroErrMsg);
+            });
+
+            it('should throw an error if height is zero', function () {
+                expect(function () {
+                    var el = compileAndLink(vidRatioHeightZeroStr, scope);
+                }).to.throw(Error, ratioZeroErrMsg);
+            });
+        });
+    });
+
+    describe('missing library', function () {
+        it('should throw an error if videojs is not loaded', function () {
+            //TOOD: currently, this must be the last test
+            //      because it destroys the reference to videojs
+            //      find a way to fix that
+            expect(function () {
+                var vjs = window.videojs,
+                    el;
+
+                window.videojs = undefined;
+                el = compileAndLink(vidStr, scope);
+                window.videojs = vjs;
+            }).throws(Error);
+        });
     });
 });
