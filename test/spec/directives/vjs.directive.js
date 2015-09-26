@@ -14,7 +14,7 @@ describe('Directive: vjs.directive.js', function () {
         vidElementContainerStr = "<vjs-video-container><video></video></vjs-video-container>",
         nonVidContainerStr = "<div vjs-video-container></div>",
         multVidsContainerStr = "<div vjs-video-container><video></video><video></video></div>",
-        //vidContainerWithDimsStr = "<div vjs-video-container><video width='320' height='320'></video></div>",
+        vidContainerWithDimsStr = "<div vjs-video-container><video id='vid-dim' width='320' height='320'></video></div>",
         vidRatioCharStr = "<div vjs-video-container vjs-ratio='asdf'><video></video></div>",
         vidRatioInvalidStr = "<div vjs-video-container vjs-ratio='1920/1080/720'><video></video></div>",
         vidRatioInvalidWStr = "<div vjs-video-container vjs-ratio='O/1080'><video></video></div>",
@@ -100,14 +100,19 @@ describe('Directive: vjs.directive.js', function () {
             expect(el.find('video').hasClass('vjs-tech')).to.be.true;
         });
 
-//        it('should set width and height of included video to auto', function () {
-//            var el = compileAndLink(vidContainerWithDimsStr, scope),
-//                vid = el.find('video');
-//
-//            expect(vid.attr('width')).to.equal('auto');
-//            expect(vid.attr('height')).to.equal('auto');
-//
-//        });
+        it('should set width and height of included video to auto', function () {
+            //video.js normally adds a style attribute to the surrounding
+            //container if the video has a width or height
+            //we want to confirm that no style tag exists
+
+            //NOTE:It is probably crossing into too much of testing
+            //video.js, I just haven't figure out a great way to stub
+            //the functionality since it's critical for the directive
+            var el = compileAndLink(vidContainerWithDimsStr, scope),
+                vid = el.find('#vid-dim');
+
+            expect(vid.attr('style')).to.not.exist;
+        });
 
         describe('vjs-ratio', function () {
             var ratioErrMsg = 'the ratio must either be "wide", "standard" or decimal values in the format of w/h',
