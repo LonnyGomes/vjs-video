@@ -14,23 +14,33 @@ An angular js directive for video.js
 
 ## Bower Install
 
-The recomended method for installing `vjs-video` is via bower
+The recomended method for installing `vjs-video` is by using bower
 
 ```bash
 bower install vjs-video
 ```
 
-The `vjs-video` also requires angular and video.js as dependencies and all files should be located within your `bower_components` folder. If you are using [wiredep](https://github.com/stephenplusplus/grunt-wiredep) in a grunt or gulp setup, all the required script includes will be injected into your html file
+Next include `angular`, `video.js`, the `vjs-video` directive and it's corresponding css.
+
+```
+<html ng-app="app">
+  <head>
+    <link rel="stylesheet" href="bower_components/video.js/dist/video-js/video-js.css" />
+  </head>
+  <body ng-app="app">
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/video.js/dist/video-js/video.js"></script>
+    <script src="bower_components/vjs-video/dist/vjs.directive.js"></script>
+</body>
+</html>
+```
+
+If you are using [wiredep](https://github.com/stephenplusplus/grunt-wiredep) in a grunt or gulp configuration, all the required script and stylesheet includes will be injected into your html file.
 
 
-### Manual Install
+## Basic usage
 
-If you are manually installing vjs-video be sure you already are including angular and video.js in your file first. Next include the `app/scripts/vjs.directive.js` file.
-
-
-## Using the vjs-video directive
-
-The `vjs-video` directive is designed to be non-invasive and easy to use. A`Add the directive to a video tag, usingYuse video.js parameters as normal, and video.js will get bootstrapped within your angular app.
+The `vjs-video` directive is designed to be non-invasive and easy to use. Add the directive to a video tag styled for video.js and it will  get bootstrapped to the video tag within your angular app.
 
 
 Before using the directive, include it as a dependency within your angular app:
@@ -41,7 +51,7 @@ angular
 
 ```
 
-Add the directive to a video tag, using video.js parameters as normal, and it will your video within your angular app.
+Add the directive to a video tag, using video.js parameters as normal and it will initialize your video tag
 
 ```
 <video class="video-js vjs-default-skin" controls preload="auto" width="640" height="264" poster="poster.jpg" vjs-video>
@@ -49,15 +59,15 @@ Add the directive to a video tag, using video.js parameters as normal, and it wi
 </video>
 ```
 
-## Using the vjs-video-container directive
+## Responsive Container
 
-The `vjs-container` directive enables responsive scaling of your video-js videos. By default it assumes a wide screen 16/9 ratio however any custom ratio can be supplied.
+The `vjs-container` directive enables responsive scaling of your video.js videos. By default it assumes a wide screen 16/9 ratio however any custom ratio can be supplied.
 
 The following example wraps a video.js instance within a responsive container with a ratio of 4/3.
 
 ```
 <vjs-video-container vjs-ratio="4/3">
-    <video class="video-js vjs-default-skin" controls preload="auto" width="640" height="264" poster="poster.jpg">
+    <video class="video-js vjs-default-skin" controls preload="auto" poster="poster.jpg">
         <source src="example_video.mp4" type="video/mp4">
     </video>
 </vjs-video-container>
