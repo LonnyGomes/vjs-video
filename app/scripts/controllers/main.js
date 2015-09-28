@@ -19,6 +19,11 @@ angular.module('vjsVideoApp')
             loop: true
         };
 
+        scope.media = {
+            sources: [],
+            tracks: []
+        };
+
         scope.$on('vjsVideoReady', function (e, data) {
             //data contains `id` and `vid`
         });
