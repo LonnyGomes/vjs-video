@@ -120,6 +120,26 @@
             el[0].appendChild(style);
         }
 
+        function watchMedia(ctrl, mediaChangedHandler) {
+            var errMsgNoValid = 'a sources and/or tracks element must be ' +
+                                'defined for the vjs-media attribute';
+            //check to see if vjsMedia is defined
+            if (!ctrl.vjsMedia) {
+                return;
+            }
+
+            //if sources and tracks aren't defined, throw an error
+            if (!ctrl.vjsMedia.sources && !ctrl.vjsMedia.tracks) {
+                throw new Error(errMsgNoValid);
+            }
+
+            //TODO process media
+
+            //invoke callback
+            mediaChangedHandler.call(undefined, {});
+
+        }
+
         function initVideoJs(vid, params, element) {
             var opts = params.vjsSetup || {},
                 ratio = params.vjsRatio;
@@ -153,11 +173,16 @@
     }]);
 
     module.directive('vjsVideo', function () {
+        function mediaChangedHandler(e) {
+            console.log('TODO');
+        }
+
         return {
             restrict: 'A',
             transclude: true,
             scope: {
-                vjsSetup: '='
+                vjsSetup: '=',
+                vjsMedia: '='
             },
             controller: 'VjsVideoController',
             controllerAs: 'vjsCtrl',
@@ -165,8 +190,7 @@
             link: function postLink(scope, element, attrs, ctrl, transclude) {
                 var vid = ctrl.getVidElement(element),
                     params = {
-                        vjsSetup: ctrl.vjsSetup,
-                        vjsRatio: ctrl.vjsRatio
+                        vjsSetup: ctrl.vjsSetup
                     };
 
                 //attach transcluded content
@@ -174,19 +198,24 @@
                     element.append(content);
                 });
 
-                ctrl.initVideoJs(vid, params, element);
+                ctrl.initVideoJs(vid, ctrl, element, mediaChangedHandler);
             }
         };
     });
 
     module.directive('vjsVideoContainer', function () {
+        function mediaChangedHandler(e) {
+            console.log('TODO');
+        }
+
         return {
             restrict: 'AE',
             transclude: true,
             templateUrl: 'scripts/directives/vjs.container.html',
             scope: {
                 vjsSetup: '=',
-                vjsRatio: '@'
+                vjsRatio: '@',
+                vjsMedia: '='
             },
             controller: 'VjsVideoController',
             controllerAs: 'vjsCtrl',
@@ -203,7 +232,7 @@
                 vid.setAttribute('height', 'auto');
 
                 //bootstrap video js
-                ctrl.initVideoJs(vid, params, element);
+                ctrl.initVideoJs(vid, ctrl, element, mediaChangedHandler);
 
                 //apply ratio to element
                 //applyRatio(element, ratio);
