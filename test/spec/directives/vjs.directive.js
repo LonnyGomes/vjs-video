@@ -21,6 +21,7 @@ describe('Directive: vjs.directive.js', function () {
         vidRatioInvalidHStr = "<div vjs-video-container vjs-ratio='1080/*'><video></video></div>",
         vidRatioHeightZeroStr = "<div vjs-video-container vjs-ratio='0/640'><video></video></div>",
         vidRatioWidthZeroStr = "<div vjs-video-container vjs-ratio='640/0'><video></video></div>",
+        vidWithMediaNoVals = "<video vjs-video vjs-media='testMedia'></video>",
         scope,
         $compile;
 
@@ -73,6 +74,14 @@ describe('Directive: vjs.directive.js', function () {
             el = compileAndLink(vidWithIdStr, scope);
         });
 
+        describe('vjs-media attribute', function () {
+            it('should throw an error if vjs-media doesn\'t contain sources or tracks', function () {
+                scope.testMedia = {}; //set scope w/o defining sources or tracks elements
+                expect(function () {
+                    compileAndLink(vidWithMediaNoVals, scope);
+                }).throws(Error, 'a sources and/or tracks element must be defined for the vjs-media attribute');
+            });
+        });
     });
 
     describe('vjs-video-container', function () {
