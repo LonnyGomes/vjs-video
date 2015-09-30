@@ -81,6 +81,46 @@ describe('Directive: vjs.directive.js', function () {
                     compileAndLink(vidWithMediaNoVals, scope);
                 }).throws(Error, 'a sources and/or tracks element must be defined for the vjs-media attribute');
             });
+
+            it('should throw an error if vjs-media sources is not an array', function () {
+                scope.testMedia = {
+                    sources: 'invalid'
+                };
+                expect(function () {
+                    compileAndLink(vidWithMediaNoVals, scope);
+                }).throws(Error, 'sources must be an array of objects with at least one item');
+            });
+
+            it('should throw an error if vjs-media tracks is not an array', function () {
+                scope.testMedia = {
+                    tracks: 'invalid'
+                };
+                expect(function () {
+                    compileAndLink(vidWithMediaNoVals, scope);
+                }).throws(Error, 'tracks must be an array of objects with at least one item');
+            });
+
+            it('should generate source DOM elements', function () {
+                scope.testMedia = {
+                    sources: [
+                        { src: 'video.mp4', type: 'mp4/video'},
+                        { src: 'video.ogg', type: 'ogg/video'}
+                    ]
+                };
+                compileAndLink(vidWithMediaNoVals, scope);
+            });
+
+            it('should generate source DOM elements', function () {
+                scope.testMedia = {
+                    tracks: [{
+                        kind: 'subtitles',
+                        label: 'english subtitles',
+                        src: 'subtitles.vtt',
+                        srclang: 'en'
+                    }]
+                };
+                compileAndLink(vidWithMediaNoVals, scope);
+            });
         });
     });
 

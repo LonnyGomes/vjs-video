@@ -122,7 +122,13 @@
 
         function watchMedia(ctrl, mediaChangedHandler) {
             var errMsgNoValid = 'a sources and/or tracks element must be ' +
-                                'defined for the vjs-media attribute';
+                                'defined for the vjs-media attribute',
+                errMsgNoSrcs  = 'sources must be an array of objects with at ' +
+                                'least one item',
+                errMsgNoTrks  = 'tracks must be an array of objects with at ' +
+                                'least one item',
+                div,
+                curDiv;
             //check to see if vjsMedia is defined
             if (!ctrl.vjsMedia) {
                 return;
@@ -133,20 +139,52 @@
                 throw new Error(errMsgNoValid);
             }
 
-            //TODO process media
+            //verify sources and tracks are arrays if they are defined
+            if (ctrl.vjsMedia.sources && !(ctrl.vjsMedia.sources instanceof Array)) {
+                throw new Error(errMsgNoSrcs);
+            }
+            if (ctrl.vjsMedia.tracks && !(ctrl.vjsMedia.tracks instanceof Array)) {
+                throw new Error(errMsgNoTrks);
+            }
+
+            //build DOM elements for sources and tracks as children to a div
+            div = document.createElement("div");
+
+            if (ctrl.vjsMedia.sources) {
+                ctrl.vjsMedia.sources.forEach(function (curObj) {
+                    curDiv = document.createElement('source');
+                    curDiv.setAttribute('src', curObj.src || "");
+                    curDiv.setAttribute('type', curObj.type || "");
+                    div.appendChild(curDiv);
+                });
+            }
+
+            if (ctrl.vjsMedia.tracks) {
+                ctrl.vjsMedia.tracks.forEach(function (curObj) {
+                    curDiv = document.createElement('track');
+                    curDiv.setAttribute('kind', curObj.kind || "");
+                    curDiv.setAttribute('label', curObj.label || "");
+                    curDiv.setAttribute('src', curObj.src || "");
+                    curDiv.setAttribute('srclang', curObj.srclang || "");
+                    div.appendChild(curDiv);
+                });
+            }
 
             //invoke callback
-            mediaChangedHandler.call(undefined, {});
+            mediaChangedHandler.call(undefined, {element: div});
 
         }
 
-        function initVideoJs(vid, params, element) {
+        function initVideoJs(vid, params, element, mediaChangedHandler) {
             var opts = params.vjsSetup || {},
                 ratio = params.vjsRatio;
 
             if (!window.videojs) {
                 return null;
             }
+
+            //generate any defined sources or tracks
+            watchMedia(params, mediaChangedHandler);
 
             //bootstrap videojs
             window.videojs(vid, opts, function () {
@@ -174,7 +212,7 @@
 
     module.directive('vjsVideo', function () {
         function mediaChangedHandler(e) {
-            console.log('TODO');
+            console.log('TODO:' + e.element.innerHTML);
         }
 
         return {
