@@ -211,9 +211,6 @@
     }]);
 
     module.directive('vjsVideo', function () {
-        function mediaChangedHandler(e) {
-            console.log('TODO:' + e.element.innerHTML);
-        }
 
         return {
             restrict: 'A',
@@ -229,6 +226,12 @@
                 var vid = ctrl.getVidElement(element),
                     params = {
                         vjsSetup: ctrl.vjsSetup
+                    },
+                    mediaChangedHandler = function (e) {
+                        //remove any inside contents
+                        element.children().remove();
+                        //add generated sources and tracks
+                        element.append(e.element.childNodes);
                     };
 
                 //attach transcluded content
@@ -242,9 +245,6 @@
     });
 
     module.directive('vjsVideoContainer', function () {
-        function mediaChangedHandler(e) {
-            console.log('TODO');
-        }
 
         return {
             restrict: 'AE',
@@ -263,6 +263,21 @@
                     params = {
                         vjsSetup: ctrl.vjsSetup,
                         vjsRatio: ctrl.vjsRatio
+                    },
+                    mediaChangedHandler = function (e) {
+                        var vidEl = element[0].querySelector('video');
+
+                        if (vidEl) {
+                            //remove any inside contents
+                            while (vidEl.firstChild) {
+                                vidEl.removeChild(vidEl.firstChild);
+                            }
+
+                            //add generated sources and tracks
+                            while (e.element.childNodes.length > 0) {
+                                vidEl.appendChild(e.element.childNodes[0]);
+                            }
+                        }
                     };
 
                 //set width and height of video to auto

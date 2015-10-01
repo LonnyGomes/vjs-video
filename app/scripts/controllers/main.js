@@ -20,7 +20,16 @@ angular.module('vjsVideoApp')
         };
 
         scope.media = {
-            sources: [],
+            sources: [
+                {
+                    src: 'http://video-js.zencoder.com/oceans-clip.mp4',
+                    type: 'video/mp4'
+                },
+                {
+                    src: 'http://video-js.zencoder.com/oceans-clip.webm',
+                    type: 'video/webm'
+                }
+            ],
             tracks: []
         };
 
