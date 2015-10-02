@@ -107,7 +107,23 @@ describe('Directive: vjs.directive.js', function () {
                         { src: 'video.ogg', type: 'ogg/video'}
                     ]
                 };
-                compileAndLink(vidWithMediaNoVals, scope);
+
+                var el = compileAndLink(vidWithMediaNoVals, scope),
+                    children = el.children(),
+                    curIdx,
+                    curChild;
+
+                expect(el.children().length).to.equal(2);
+
+                for (curIdx = 0; curIdx < el.children().length; curIdx += 1) {
+                    curChild = el.children()[curIdx];
+
+                    expect(curChild.nodeName).to.equal('SOURCE');
+                    expect(curChild.getAttribute('src')).to.equal(
+                        scope.testMedia.sources[curIdx].src);
+                    expect(curChild.getAttribute('type')).to.equal(
+                        scope.testMedia.sources[curIdx].type);
+                }
             });
 
             it('should generate source DOM elements', function () {
