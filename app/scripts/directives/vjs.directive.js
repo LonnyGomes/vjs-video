@@ -184,7 +184,19 @@
             }
 
             //generate any defined sources or tracks
-            watchMedia(params, mediaChangedHandler);
+
+            $scope.$watch(
+                function (s) {
+                    return params.vjsMedia;
+                },
+                function (newVal, oldVal) {
+                    if (newVal) {
+                        watchMedia(params, mediaChangedHandler);
+                    }
+                },
+                true
+            );
+
 
             //bootstrap videojs
             window.videojs(vid, opts, function () {
