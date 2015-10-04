@@ -21,7 +21,8 @@ angular.module('vjsVideoApp')
                         type: 'video/webm'
                     }
                 ],
-                tracks: []
+                tracks: [],
+                poster: 'http://video-js.zencoder.com/oceans-clip.png'
             },
             mediaAltObj = {
                 sources: [
@@ -34,7 +35,8 @@ angular.module('vjsVideoApp')
                         type: 'video/webm'
                     }
                 ],
-                tracks: []
+                tracks: [],
+                poster: 'http://html5videoformatconverter.com/data/images/screen.jpg'
             },
             isToggled = false;
 

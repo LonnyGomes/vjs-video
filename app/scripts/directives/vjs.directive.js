@@ -184,6 +184,11 @@
                 return null;
             }
 
+            //override poster settings if defined in vjsMedia
+            if (params.vjsMedia && params.vjsMedia.poster) {
+                opts.poster = params.vjsMedia.poster;
+            }
+
             //generate any defined sources or tracks
             watchMedia(params, mediaChangedHandler);
 
