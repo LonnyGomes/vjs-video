@@ -177,26 +177,31 @@
 
         function initVideoJs(vid, params, element, mediaChangedHandler) {
             var opts = params.vjsSetup || {},
-                ratio = params.vjsRatio;
+                ratio = params.vjsRatio,
+                mediaWatcher;
 
             if (!window.videojs) {
                 return null;
             }
 
             //generate any defined sources or tracks
+            watchMedia(params, mediaChangedHandler);
 
-            $scope.$watch(
+            //watch for changes to vjs-media
+            mediaWatcher = $scope.$watch(
                 function (s) {
                     return params.vjsMedia;
                 },
                 function (newVal, oldVal) {
-                    if (newVal) {
-                        watchMedia(params, mediaChangedHandler);
-                    }
-                },
-                true
-            );
+                    if (newVal && !angular.equals(newVal, oldVal)) {
+                        //deregister watcher
+                        mediaWatcher();
 
+                        window.videojs(vid).dispose();
+                        $scope.$emit('vjsVideoMediaChanged');
+                    }
+                }
+            );
 
             //bootstrap videojs
             window.videojs(vid, opts, function () {
@@ -235,7 +240,7 @@
             controllerAs: 'vjsCtrl',
             bindToController: true,
             link: function postLink(scope, element, attrs, ctrl, transclude) {
-                var vid = ctrl.getVidElement(element),
+                var vid,
                     params = {
                         vjsSetup: ctrl.vjsSetup
                     },
@@ -244,14 +249,18 @@
                         element.children().remove();
                         //add generated sources and tracks
                         element.append(e.element.childNodes);
+                    },
+                    init = function () {
+                        vid = ctrl.getVidElement(element);
+
+                        ctrl.initVideoJs(vid, ctrl, element, mediaChangedHandler);
+                        //attach transcluded content
+                        transclude(function (content) {
+                            element.append(content);
+                        });
                     };
 
-                //attach transcluded content
-                transclude(function (content) {
-                    element.append(content);
-                });
-
-                ctrl.initVideoJs(vid, ctrl, element, mediaChangedHandler);
+                init();
             }
         };
     });
@@ -270,8 +279,9 @@
             controller: 'VjsVideoController',
             controllerAs: 'vjsCtrl',
             bindToController: true,
-            link: function postLink(scope, element, attrs, ctrl) {
-                var vid = ctrl.getVidElement(element, true),
+            link: function postLink(scope, element, attrs, ctrl, transclude) {
+                var vid,
+                    origContent,
                     params = {
                         vjsSetup: ctrl.vjsSetup,
                         vjsRatio: ctrl.vjsRatio
@@ -290,17 +300,31 @@
                                 vidEl.appendChild(e.element.childNodes[0]);
                             }
                         }
+                    },
+                    init = function () {
+                        vid = ctrl.getVidElement(element, true);
+
+                        //set width and height of video to auto
+                        vid.setAttribute('width', 'auto');
+                        vid.setAttribute('height', 'auto');
+
+                        //bootstrap video js
+                        ctrl.initVideoJs(vid, ctrl, element, mediaChangedHandler);
                     };
 
-                //set width and height of video to auto
-                vid.setAttribute('width', 'auto');
-                vid.setAttribute('height', 'auto');
+                //save original content
+                transclude(function (content) {
+                    origContent = content.clone();
+                });
 
-                //bootstrap video js
-                ctrl.initVideoJs(vid, ctrl, element, mediaChangedHandler);
+                scope.$on('vjsVideoMediaChanged', function (e) {
+                    //replace element children with orignal content
+                    element.children().remove();
+                    element.append(origContent.clone());
+                    init();
+                });
 
-                //apply ratio to element
-                //applyRatio(element, ratio);
+                init();
             }
         };
     });
