@@ -178,6 +178,7 @@
         function initVideoJs(vid, params, element, mediaChangedHandler) {
             var opts = params.vjsSetup || {},
                 ratio = params.vjsRatio,
+                isContainer = (element[0].nodeName !== 'VIDEO') ? true : false,
                 mediaWatcher;
 
             if (!window.videojs) {
@@ -202,15 +203,19 @@
                         //deregister watcher
                         mediaWatcher();
 
-                        window.videojs(vid).dispose();
-                        $scope.$emit('vjsVideoMediaChanged');
+                        if (isContainer) {
+                            window.videojs(vid).dispose();
+                            $scope.$emit('vjsVideoMediaChanged');
+                        } else {
+                            console.log('element:', element);
+                        }
                     }
                 }
             );
 
             //bootstrap videojs
             window.videojs(vid, opts, function () {
-                if (element[0].nodeName !== 'VIDEO') {
+                if (isContainer) {
                     applyRatio(element, ratio);
                 }
 
@@ -246,6 +251,8 @@
             bindToController: true,
             link: function postLink(scope, element, attrs, ctrl, transclude) {
                 var vid,
+                    parentContainer,
+                    origContent,
                     params = {
                         vjsSetup: ctrl.vjsSetup
                     },
@@ -264,6 +271,23 @@
                             element.append(content);
                         });
                     };
+
+                origContent = element.clone();
+
+                //we need to wrap the video inside of a div in case
+                //the video needs to be swapped out
+                element.after(document.createElement('div'));
+                parentContainer = element.next();
+                parentContainer.append(element);
+
+                console.log('element orig:', element[0]);
+                scope.$on('vjsVideoMediaChanged', function (e) {
+                    console.log('element new:', element[0]);
+                    //replace element children with orignal content
+                    parentContainer.children().remove();
+                    parentContainer.append(origContent.clone());
+                    init();
+                });
 
                 init();
             }
