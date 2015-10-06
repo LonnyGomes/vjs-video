@@ -179,6 +179,7 @@
             var opts = params.vjsSetup || {},
                 ratio = params.vjsRatio,
                 isContainer = (element[0].nodeName !== 'VIDEO') ? true : false,
+                elementClone = element.clone(),
                 mediaWatcher;
 
             if (!window.videojs) {
@@ -199,15 +200,18 @@
                     return params.vjsMedia;
                 },
                 function (newVal, oldVal) {
+                    var compiledEl,
+                        newScope;
+
                     if (newVal && !angular.equals(newVal, oldVal)) {
-                        //deregister watcher
-                        mediaWatcher();
 
                         if (isContainer) {
+                            //deregister watcher
+                            mediaWatcher();
                             window.videojs(vid).dispose();
                             $scope.$emit('vjsVideoMediaChanged');
                         } else {
-                            console.log('element:', element);
+                            $scope.$emit('vjsVideoMediaChanged');
                         }
                     }
                 }
@@ -237,7 +241,7 @@
         self.getVidElement = getVidElement;
     }]);
 
-    module.directive('vjsVideo', function () {
+    module.directive('vjsVideo', ['$compile', function ($compile) {
 
         return {
             restrict: 'A',
@@ -253,6 +257,8 @@
                 var vid,
                     parentContainer,
                     origContent,
+                    newScope,
+                    compiledEl,
                     params = {
                         vjsSetup: ctrl.vjsSetup
                     },
@@ -276,23 +282,32 @@
 
                 //we need to wrap the video inside of a div in case
                 //the video needs to be swapped out
-                element.after(document.createElement('div'));
-                parentContainer = element.next();
-                parentContainer.append(element);
+                if (!element.parent().hasClass('vjs-video-wrap')) {
+                    element.wrap('<div class="vjs-video-wrap"></div>');
+                }
 
-                console.log('element orig:', element[0]);
+                parentContainer = element.parent();
+
                 scope.$on('vjsVideoMediaChanged', function (e) {
-                    console.log('element new:', element[0]);
-                    //replace element children with orignal content
-                    parentContainer.children().remove();
-                    parentContainer.append(origContent.clone());
-                    init();
+                    newScope = scope.$new(true);
+                    //if attribute is defined, map value in scope
+                    if (attrs.vjsMedia) {
+                        newScope[attrs.vjsMedia] = ctrl.vjsMedia;
+                    }
+                    if (attrs.vjsSetup) {
+                        newScope[attrs.vjsSetup] = ctrl.vjsSetup;
+                    }
+
+                    //compile content
+                    compiledEl = origContent.clone();
+                    parentContainer.append(compiledEl);
+                    compiledEl = $compile(compiledEl)(newScope);
                 });
 
                 init();
             }
         };
-    });
+    }]);
 
     module.directive('vjsVideoContainer', function () {
 
