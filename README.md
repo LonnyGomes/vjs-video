@@ -72,6 +72,13 @@ The following example wraps a video.js instance within a responsive container wi
     </video>
 </vjs-video-container>
 ```
+## Directive Attributes
+
+The vjs-directive supports optional attributes to extend capabilities.
+
+* vjs-setup - an alternative to using data-setup on the video element
+* vjs-ratio - defines the aspect ratio in the format width/height. The values can be the actual width and height or the least common denominator such as 9/16.
+* vjs-media - an alternative way of defining for sources and tracks
 
 ## Getting a reference to the videojs instance
 
