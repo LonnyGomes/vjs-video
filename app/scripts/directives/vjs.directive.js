@@ -120,7 +120,7 @@
             el[0].appendChild(style);
         }
 
-        function watchMedia(ctrl, mediaChangedHandler) {
+        function generateMedia(ctrl, mediaChangedHandler) {
             var errMsgNoValid = 'a sources and/or tracks element must be ' +
                                 'defined for the vjs-media attribute',
                 errMsgNoSrcs  = 'sources must be an array of objects with at ' +
@@ -192,7 +192,7 @@
             }
 
             //generate any defined sources or tracks
-            watchMedia(params, mediaChangedHandler);
+            generateMedia(params, mediaChangedHandler);
 
             //watch for changes to vjs-media
             mediaWatcher = $scope.$watch(
@@ -258,9 +258,6 @@
                     parentContainer,
                     origContent,
                     compiledEl,
-                    params = {
-                        vjsSetup: ctrl.vjsSetup
-                    },
                     mediaChangedHandler = function (e) {
                         //remove any inside contents
                         element.children().remove();
@@ -323,10 +320,6 @@
             link: function postLink(scope, element, attrs, ctrl, transclude) {
                 var vid,
                     origContent,
-                    params = {
-                        vjsSetup: ctrl.vjsSetup,
-                        vjsRatio: ctrl.vjsRatio
-                    },
                     mediaChangedHandler = function (e) {
                         var vidEl = element[0].querySelector('video');
 
