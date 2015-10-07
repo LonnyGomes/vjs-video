@@ -21,6 +21,7 @@ describe('Directive: vjs.directive.js', function () {
         vidRatioInvalidHStr = "<div vjs-video-container vjs-ratio='1080/*'><video></video></div>",
         vidRatioHeightZeroStr = "<div vjs-video-container vjs-ratio='0/640'><video></video></div>",
         vidRatioWidthZeroStr = "<div vjs-video-container vjs-ratio='640/0'><video></video></div>",
+        vidWithMediaNoVals = "<video vjs-video vjs-media='testMedia'></video>",
         scope,
         $compile;
 
@@ -73,6 +74,70 @@ describe('Directive: vjs.directive.js', function () {
             el = compileAndLink(vidWithIdStr, scope);
         });
 
+        describe('vjs-media attribute', function () {
+            it('should throw an error if vjs-media doesn\'t contain sources or tracks', function () {
+                scope.testMedia = {}; //set scope w/o defining sources or tracks elements
+                expect(function () {
+                    compileAndLink(vidWithMediaNoVals, scope);
+                }).throws(Error, 'a sources and/or tracks element must be defined for the vjs-media attribute');
+            });
+
+            it('should throw an error if vjs-media sources is not an array', function () {
+                scope.testMedia = {
+                    sources: 'invalid'
+                };
+                expect(function () {
+                    compileAndLink(vidWithMediaNoVals, scope);
+                }).throws(Error, 'sources must be an array of objects with at least one item');
+            });
+
+            it('should throw an error if vjs-media tracks is not an array', function () {
+                scope.testMedia = {
+                    tracks: 'invalid'
+                };
+                expect(function () {
+                    compileAndLink(vidWithMediaNoVals, scope);
+                }).throws(Error, 'tracks must be an array of objects with at least one item');
+            });
+
+            it('should generate source DOM elements', function () {
+                scope.testMedia = {
+                    sources: [
+                        { src: 'video.mp4', type: 'mp4/video'},
+                        { src: 'video.ogg', type: 'ogg/video'}
+                    ]
+                };
+
+                var el = compileAndLink(vidWithMediaNoVals, scope),
+                    children = el.children(),
+                    curIdx,
+                    curChild;
+
+                expect(el.children().length).to.equal(2);
+
+                for (curIdx = 0; curIdx < el.children().length; curIdx += 1) {
+                    curChild = el.children()[curIdx];
+
+                    expect(curChild.nodeName).to.equal('SOURCE');
+                    expect(curChild.getAttribute('src')).to.equal(
+                        scope.testMedia.sources[curIdx].src);
+                    expect(curChild.getAttribute('type')).to.equal(
+                        scope.testMedia.sources[curIdx].type);
+                }
+            });
+
+            it('should generate source DOM elements', function () {
+                scope.testMedia = {
+                    tracks: [{
+                        kind: 'subtitles',
+                        label: 'english subtitles',
+                        src: 'subtitles.vtt',
+                        srclang: 'en'
+                    }]
+                };
+                compileAndLink(vidWithMediaNoVals, scope);
+            });
+        });
     });
 
     describe('vjs-video-container', function () {

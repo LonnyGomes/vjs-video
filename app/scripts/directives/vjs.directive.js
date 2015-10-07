@@ -120,17 +120,106 @@
             el[0].appendChild(style);
         }
 
-        function initVideoJs(vid, params, element) {
+        function generateMedia(ctrl, mediaChangedHandler) {
+            var errMsgNoValid = 'a sources and/or tracks element must be ' +
+                                'defined for the vjs-media attribute',
+                errMsgNoSrcs  = 'sources must be an array of objects with at ' +
+                                'least one item',
+                errMsgNoTrks  = 'tracks must be an array of objects with at ' +
+                                'least one item',
+                div,
+                curDiv;
+            //check to see if vjsMedia is defined
+            if (!ctrl.vjsMedia) {
+                return;
+            }
+
+            //if sources and tracks aren't defined, throw an error
+            if (!ctrl.vjsMedia.sources && !ctrl.vjsMedia.tracks) {
+                throw new Error(errMsgNoValid);
+            }
+
+            //verify sources and tracks are arrays if they are defined
+            if (ctrl.vjsMedia.sources && !(ctrl.vjsMedia.sources instanceof Array)) {
+                throw new Error(errMsgNoSrcs);
+            }
+            if (ctrl.vjsMedia.tracks && !(ctrl.vjsMedia.tracks instanceof Array)) {
+                throw new Error(errMsgNoTrks);
+            }
+
+            //build DOM elements for sources and tracks as children to a div
+            div = document.createElement("div");
+
+            if (ctrl.vjsMedia.sources) {
+                ctrl.vjsMedia.sources.forEach(function (curObj) {
+                    curDiv = document.createElement('source');
+                    curDiv.setAttribute('src', curObj.src || "");
+                    curDiv.setAttribute('type', curObj.type || "");
+                    div.appendChild(curDiv);
+                });
+            }
+
+            if (ctrl.vjsMedia.tracks) {
+                ctrl.vjsMedia.tracks.forEach(function (curObj) {
+                    curDiv = document.createElement('track');
+                    curDiv.setAttribute('kind', curObj.kind || "");
+                    curDiv.setAttribute('label', curObj.label || "");
+                    curDiv.setAttribute('src', curObj.src || "");
+                    curDiv.setAttribute('srclang', curObj.srclang || "");
+                    div.appendChild(curDiv);
+                });
+            }
+
+            //invoke callback
+            mediaChangedHandler.call(undefined, {element: div});
+
+        }
+
+        function initVideoJs(vid, params, element, mediaChangedHandler) {
             var opts = params.vjsSetup || {},
-                ratio = params.vjsRatio;
+                ratio = params.vjsRatio,
+                isContainer = (element[0].nodeName !== 'VIDEO') ? true : false,
+                elementClone = element.clone(),
+                mediaWatcher;
 
             if (!window.videojs) {
                 return null;
             }
 
+            //override poster settings if defined in vjsMedia
+            if (params.vjsMedia && params.vjsMedia.poster) {
+                opts.poster = params.vjsMedia.poster;
+            }
+
+            //generate any defined sources or tracks
+            generateMedia(params, mediaChangedHandler);
+
+            //watch for changes to vjs-media
+            mediaWatcher = $scope.$watch(
+                function (s) {
+                    return params.vjsMedia;
+                },
+                function (newVal, oldVal) {
+                    var compiledEl,
+                        newScope;
+
+                    if (newVal && !angular.equals(newVal, oldVal)) {
+                        //deregister watcher
+                        mediaWatcher();
+
+                        if (isContainer) {
+                            window.videojs(vid).dispose();
+                            $scope.$emit('vjsVideoMediaChanged');
+                        } else {
+                            $scope.$emit('vjsVideoMediaChanged');
+                        }
+                    }
+                }
+            );
+
             //bootstrap videojs
             window.videojs(vid, opts, function () {
-                if (element[0].nodeName !== 'VIDEO') {
+                if (isContainer) {
                     applyRatio(element, ratio);
                 }
 
@@ -152,61 +241,124 @@
         self.getVidElement = getVidElement;
     }]);
 
-    module.directive('vjsVideo', function () {
+    module.directive('vjsVideo', ['$compile', '$timeout', function ($compile, $timeout) {
+
         return {
             restrict: 'A',
             transclude: true,
             scope: {
-                vjsSetup: '='
+                vjsSetup: '=',
+                vjsMedia: '='
             },
             controller: 'VjsVideoController',
             controllerAs: 'vjsCtrl',
             bindToController: true,
             link: function postLink(scope, element, attrs, ctrl, transclude) {
-                var vid = ctrl.getVidElement(element),
-                    params = {
-                        vjsSetup: ctrl.vjsSetup,
-                        vjsRatio: ctrl.vjsRatio
+                var vid,
+                    parentContainer,
+                    origContent,
+                    compiledEl,
+                    mediaChangedHandler = function (e) {
+                        //remove any inside contents
+                        element.children().remove();
+                        //add generated sources and tracks
+                        element.append(e.element.childNodes);
+                    },
+                    init = function () {
+                        vid = ctrl.getVidElement(element);
+
+                        ctrl.initVideoJs(vid, ctrl, element, mediaChangedHandler);
+                        //attach transcluded content
+                        transclude(function (content) {
+                            element.append(content);
+                        });
                     };
 
-                //attach transcluded content
-                transclude(function (content) {
-                    element.append(content);
+                origContent = element.clone();
+
+                //we need to wrap the video inside of a div
+                //for easier DOM management
+                if (!element.parent().hasClass('vjs-video-wrap')) {
+                    element.wrap('<div class="vjs-video-wrap"></div>');
+                }
+
+                parentContainer = element.parent();
+
+                scope.$on('vjsVideoMediaChanged', function (e) {
+                    //remove current directive instance
+                    //destroy will trigger a video.js dispose
+                    $timeout(function () {
+                        scope.$destroy();
+                    });
+
+                    //compile the new directive and add it to the DOM
+                    compiledEl = origContent.clone();
+                    parentContainer.append(compiledEl);
+                    //it is key to pass in the parent scope to the directive
+                    compiledEl = $compile(compiledEl)(scope.$parent);
                 });
 
-                ctrl.initVideoJs(vid, params, element);
+                init();
             }
         };
-    });
+    }]);
 
     module.directive('vjsVideoContainer', function () {
+
         return {
             restrict: 'AE',
             transclude: true,
             templateUrl: 'scripts/directives/vjs.container.html',
             scope: {
                 vjsSetup: '=',
-                vjsRatio: '@'
+                vjsRatio: '@',
+                vjsMedia: '='
             },
             controller: 'VjsVideoController',
             controllerAs: 'vjsCtrl',
             bindToController: true,
-            link: function postLink(scope, element, attrs, ctrl) {
-                var vid = ctrl.getVidElement(element, true),
-                    params = {
-                        vjsSetup: ctrl.vjsSetup,
-                        vjsRatio: ctrl.vjsRatio
+            link: function postLink(scope, element, attrs, ctrl, transclude) {
+                var vid,
+                    origContent,
+                    mediaChangedHandler = function (e) {
+                        var vidEl = element[0].querySelector('video');
+
+                        if (vidEl) {
+                            //remove any inside contents
+                            while (vidEl.firstChild) {
+                                vidEl.removeChild(vidEl.firstChild);
+                            }
+
+                            //add generated sources and tracks
+                            while (e.element.childNodes.length > 0) {
+                                vidEl.appendChild(e.element.childNodes[0]);
+                            }
+                        }
+                    },
+                    init = function () {
+                        vid = ctrl.getVidElement(element, true);
+
+                        //set width and height of video to auto
+                        vid.setAttribute('width', 'auto');
+                        vid.setAttribute('height', 'auto');
+
+                        //bootstrap video js
+                        ctrl.initVideoJs(vid, ctrl, element, mediaChangedHandler);
                     };
 
-                //set width and height of video to auto
-                vid.setAttribute('width', 'auto');
-                vid.setAttribute('height', 'auto');
+                //save original content
+                transclude(function (content) {
+                    origContent = content.clone();
+                });
 
-                //bootstrap video js
-                ctrl.initVideoJs(vid, params, element);
+                scope.$on('vjsVideoMediaChanged', function (e) {
+                    //replace element children with orignal content
+                    element.children().remove();
+                    element.append(origContent.clone());
+                    init();
+                });
 
-                //apply ratio to element
-                //applyRatio(element, ratio);
+                init();
             }
         };
     });
