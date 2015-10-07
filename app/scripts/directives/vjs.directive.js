@@ -204,10 +204,10 @@
                         newScope;
 
                     if (newVal && !angular.equals(newVal, oldVal)) {
+                        //deregister watcher
+                        mediaWatcher();
 
                         if (isContainer) {
-                            //deregister watcher
-                            mediaWatcher();
                             window.videojs(vid).dispose();
                             $scope.$emit('vjsVideoMediaChanged');
                         } else {
@@ -241,7 +241,7 @@
         self.getVidElement = getVidElement;
     }]);
 
-    module.directive('vjsVideo', ['$compile', function ($compile) {
+    module.directive('vjsVideo', ['$compile', '$timeout', function ($compile, $timeout) {
 
         return {
             restrict: 'A',
@@ -257,7 +257,6 @@
                 var vid,
                     parentContainer,
                     origContent,
-                    newScope,
                     compiledEl,
                     params = {
                         vjsSetup: ctrl.vjsSetup
@@ -280,8 +279,8 @@
 
                 origContent = element.clone();
 
-                //we need to wrap the video inside of a div in case
-                //the video needs to be swapped out
+                //we need to wrap the video inside of a div
+                //for easier DOM management
                 if (!element.parent().hasClass('vjs-video-wrap')) {
                     element.wrap('<div class="vjs-video-wrap"></div>');
                 }
@@ -289,19 +288,17 @@
                 parentContainer = element.parent();
 
                 scope.$on('vjsVideoMediaChanged', function (e) {
-                    newScope = scope.$new(true);
-                    //if attribute is defined, map value in scope
-                    if (attrs.vjsMedia) {
-                        newScope[attrs.vjsMedia] = ctrl.vjsMedia;
-                    }
-                    if (attrs.vjsSetup) {
-                        newScope[attrs.vjsSetup] = ctrl.vjsSetup;
-                    }
+                    //remove current directive instance
+                    //destroy will trigger a video.js dispose
+                    $timeout(function () {
+                        scope.$destroy();
+                    });
 
-                    //compile content
+                    //compile the new directive and add it to the DOM
                     compiledEl = origContent.clone();
                     parentContainer.append(compiledEl);
-                    compiledEl = $compile(compiledEl)(newScope);
+                    //it is key to pass in the parent scope to the directive
+                    compiledEl = $compile(compiledEl)(scope.$parent);
                 });
 
                 init();
