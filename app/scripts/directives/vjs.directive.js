@@ -285,6 +285,9 @@
                 parentContainer = element.parent();
 
                 scope.$on('vjsVideoMediaChanged', function (e) {
+                    //retreive base element that video.js creates
+                    var staleChild = parentContainer.children()[0];
+
                     //remove current directive instance
                     //destroy will trigger a video.js dispose
                     $timeout(function () {
@@ -296,6 +299,9 @@
                     parentContainer.append(compiledEl);
                     //it is key to pass in the parent scope to the directive
                     compiledEl = $compile(compiledEl)(scope.$parent);
+
+                    //remove original element created by video.js
+                    staleChild.remove();
                 });
 
                 init();
