@@ -77,8 +77,35 @@ The following example wraps a video.js instance within a responsive container wi
 The vjs-directive supports optional attributes to extend capabilities.
 
 * vjs-setup - an alternative to using data-setup on the video element
-* vjs-ratio - defines the aspect ratio in the format width/height. The values can be the actual width and height or the least common denominator such as 9/16.
+* vjs-ratio - defines the aspect ratio in the format width/height. The values can be the actual width and height or the least common denominator such as 16/9.
 * vjs-media - an alternative way of defining for sources and tracks
+
+### vjs-media
+
+The `vjs-media` option expects a reference to an object that contains a `sources`, `tracks`, and/or `poster` element.
+
+#### HTML
+
+```
+<video class="video-js vjs-default-skin" controls preload="auto"
+       width="592" height="252" vjs-video vjs-media="mediaToggle">
+</video>
+```
+#### JavaScript
+```JavaScript
+sources: [
+    {
+        src: 'http://html5videoformatconverter.com/data/images/happyfit2.mp4',
+        type: 'video/mp4'
+    },
+    {
+        src: 'http://html5videoformatconverter.com/data/images/happyfit2.webm',
+        type: 'video/webm'
+    }
+],
+tracks: [],
+poster: 'http://html5videoformatconverter.com/data/images/screen.jpg'
+```
 
 ## Getting a reference to the videojs instance
 
