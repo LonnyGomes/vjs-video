@@ -314,7 +314,7 @@
         return {
             restrict: 'AE',
             transclude: true,
-            templateUrl: 'scripts/directives/vjs.container.html',
+            template: '<div class="vjs-directive-container"><div ng-transclude></div></div>',
             scope: {
                 vjsSetup: '=',
                 vjsRatio: '@',

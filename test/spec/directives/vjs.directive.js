@@ -25,9 +25,6 @@ describe('Directive: vjs.directive.js', function () {
         scope,
         $compile;
 
-    //load templates
-    beforeEach(module('scripts/directives/vjs.container.html'));
-
     beforeEach(inject(function ($rootScope, _$compile_) {
         scope = $rootScope.$new();
         $compile = _$compile_;
