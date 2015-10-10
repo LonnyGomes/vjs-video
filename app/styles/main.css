@@ -7,8 +7,20 @@
 
 body {
   padding: 0;
+  padding-top: 50px;
 }
 
+.link-section {
+    padding: 20px 0px;
+    background-color: #9f9f9f;
+    border-bottom: 1px solid #8b8b8b;
+    text-align: center;
+    color: #fff;
+}
+
+.link-section-btn {
+    margin: 5px 10px;
+}
 
 h3 {
     font-family: Arial, sans-serif;

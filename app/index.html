@@ -12,6 +12,7 @@
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="bower_components/bootstrap-css/css/bootstrap.min.css">
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
   </head>
@@ -20,8 +21,20 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <!-- Add your site or application content here -->
-
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+              <a class="navbar-brand" href="#">vjs-video</a>
+            </div>
+        </div><!-- /.container-fluid -->
+    </nav>
+    <section class="container-fluid link-section">
+        <div class="container">
+            <p class="lead">vjs-video is an angular directive that makes using <a href="http://videojs.com">video.js</a> easy within your single page apps.</p>
+            <a class="btn btn-primary btn-lg link-section-btn" href="">Download vjs-video</a>
+            <a class="btn btn-primary btn-lg link-section-btn" href="https://github.com/LonnyGomes/vjs-video">Fork Me on GitHub</a>
+        </div>
+    </section>
     <div class="container">
     <div ng-include="'views/main.html'" ng-controller="MainCtrl"></div>
     </div>
@@ -29,6 +42,7 @@
 
 
     <!-- build:js(.) scripts/vendor.js -->
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <!-- bower:js -->
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/video.js/dist/video-js/video.js"></script>
