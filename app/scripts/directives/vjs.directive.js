@@ -11,6 +11,11 @@
 
     var module = angular.module('vjs.video', []);
 
+    function getVersion() {
+        return (window.videojs && window.videojs.VERSION) ?
+                window.videojs.VERSION : '0.0.0';
+    }
+
     module.controller('VjsVideoController', ['$scope', function ($scope) {
         var self = this;
 
@@ -178,8 +183,9 @@
         function initVideoJs(vid, params, element, mediaChangedHandler) {
             var opts = params.vjsSetup || {},
                 ratio = params.vjsRatio,
-                isContainer = (element[0].nodeName !== 'VIDEO') ? true : false,
                 elementClone = element.clone(),
+                isValidContainer =
+                    ((element[0].nodeName !== 'VIDEO') && !getVersion().match(/^5\./)) ? true : false,
                 mediaWatcher;
 
             if (!window.videojs) {
@@ -207,7 +213,7 @@
                         //deregister watcher
                         mediaWatcher();
 
-                        if (isContainer) {
+                        if (isValidContainer) {
                             window.videojs(vid).dispose();
                             $scope.$emit('vjsVideoMediaChanged');
                         } else {
@@ -219,7 +225,7 @@
 
             //bootstrap videojs
             window.videojs(vid, opts, function () {
-                if (isContainer) {
+                if (isValidContainer) {
                     applyRatio(element, ratio);
                 }
 
@@ -344,9 +350,14 @@
                     init = function () {
                         vid = ctrl.getVidElement(element, true);
 
-                        //set width and height of video to auto
-                        vid.setAttribute('width', 'auto');
-                        vid.setAttribute('height', 'auto');
+                        //check if video.js version 5.x is running
+                        if (getVersion().match(/^5\./)) {
+                            //TODO
+                        } else {
+                            //set width and height of video to auto
+                            vid.setAttribute('width', 'auto');
+                            vid.setAttribute('height', 'auto');
+                        }
 
                         //bootstrap video js
                         ctrl.initVideoJs(vid, ctrl, element, mediaChangedHandler);
