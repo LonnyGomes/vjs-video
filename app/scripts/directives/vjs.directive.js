@@ -51,9 +51,9 @@
             var ratio = ratioVal,
                 style = document.createElement('style'),
                 parseRatio = function (r) {
-                    var tokens = r.split('/'),
+                    var tokens = r.split(':'),
                         tokenErrorMsg = 'the ratio must either be "wide", "standard" or ' +
-                                        'decimal values in the format of w/h';
+                                        'decimal values in the format of w:h';
 
                     //if invalid ratio throw an error
                     if (tokens.length !== 2) {
@@ -94,15 +94,15 @@
 
             //if ratio isn't defined lets default to wide screen
             if (!ratio) {
-                ratio = '16/9';
+                ratio = '16:9';
             }
 
             switch (ratio) {
             case 'wide':
-                ratio = '16/9';
+                ratio = '16:9';
                 break;
             case 'standard':
-                ratio = '4/3';
+                ratio = '4:3';
                 break;
             }
 

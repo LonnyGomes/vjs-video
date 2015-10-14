@@ -16,11 +16,11 @@ describe('Directive: vjs.directive.js', function () {
         multVidsContainerStr = "<div vjs-video-container><video></video><video></video></div>",
         vidContainerWithDimsStr = "<div vjs-video-container><video id='vid-dim' width='320' height='320'></video></div>",
         vidRatioCharStr = "<div vjs-video-container vjs-ratio='asdf'><video></video></div>",
-        vidRatioInvalidStr = "<div vjs-video-container vjs-ratio='1920/1080/720'><video></video></div>",
-        vidRatioInvalidWStr = "<div vjs-video-container vjs-ratio='O/1080'><video></video></div>",
-        vidRatioInvalidHStr = "<div vjs-video-container vjs-ratio='1080/*'><video></video></div>",
-        vidRatioHeightZeroStr = "<div vjs-video-container vjs-ratio='0/640'><video></video></div>",
-        vidRatioWidthZeroStr = "<div vjs-video-container vjs-ratio='640/0'><video></video></div>",
+        vidRatioInvalidStr = "<div vjs-video-container vjs-ratio='1920:1080:720'><video></video></div>",
+        vidRatioInvalidWStr = "<div vjs-video-container vjs-ratio='O:1080'><video></video></div>",
+        vidRatioInvalidHStr = "<div vjs-video-container vjs-ratio='1080:*'><video></video></div>",
+        vidRatioHeightZeroStr = "<div vjs-video-container vjs-ratio='0:640'><video></video></div>",
+        vidRatioWidthZeroStr = "<div vjs-video-container vjs-ratio='640:0'><video></video></div>",
         vidWithMediaNoVals = "<video vjs-video vjs-media='testMedia'></video>",
         scope,
         $compile;
@@ -177,7 +177,7 @@ describe('Directive: vjs.directive.js', function () {
         });
 
         describe('vjs-ratio', function () {
-            var ratioErrMsg = 'the ratio must either be "wide", "standard" or decimal values in the format of w/h',
+            var ratioErrMsg = 'the ratio must either be "wide", "standard" or decimal values in the format of w:h',
                 ratioZeroErrMsg = 'neither the width or height ratio can be zero!';
 
             it('should throw an error if an invalid string is provided', function () {
