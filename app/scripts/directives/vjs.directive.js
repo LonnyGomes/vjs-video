@@ -183,7 +183,6 @@
         function initVideoJs(vid, params, element, mediaChangedHandler) {
             var opts = params.vjsSetup || {},
                 ratio = params.vjsRatio,
-                elementClone = element.clone(),
                 isValidContainer =
                     ((element[0].nodeName !== 'VIDEO') && !getVersion().match(/^5\./)) ? true : false,
                 mediaWatcher;
@@ -202,12 +201,10 @@
 
             //watch for changes to vjs-media
             mediaWatcher = $scope.$watch(
-                function (s) {
+                function () {
                     return params.vjsMedia;
                 },
                 function (newVal, oldVal) {
-                    var compiledEl,
-                        newScope;
 
                     if (newVal && !angular.equals(newVal, oldVal)) {
                         //deregister watcher
@@ -290,7 +287,7 @@
 
                 parentContainer = element.parent();
 
-                scope.$on('vjsVideoMediaChanged', function (e) {
+                scope.$on('vjsVideoMediaChanged', function () {
                     //retreive base element that video.js creates
                     var staleChild = parentContainer.children()[0];
 
@@ -352,7 +349,6 @@
 
                         //check if video.js version 5.x is running
                         if (getVersion().match(/^5\./)) {
-                            var ratioParts;
 
                             if (ctrl.vjsRatio) {
                                 if (!ctrl.vjsSetup) {
@@ -376,7 +372,7 @@
                     origContent = content.clone();
                 });
 
-                scope.$on('vjsVideoMediaChanged', function (e) {
+                scope.$on('vjsVideoMediaChanged', function () {
                     //replace element children with orignal content
                     element.children().remove();
                     element.append(origContent.clone());
