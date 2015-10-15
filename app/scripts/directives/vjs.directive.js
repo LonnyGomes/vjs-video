@@ -352,7 +352,15 @@
 
                         //check if video.js version 5.x is running
                         if (getVersion().match(/^5\./)) {
-                            //TODO
+                            var ratioParts;
+
+                            if (ctrl.vjsRatio) {
+                                if (!ctrl.vjsSetup) {
+                                    ctrl.vjsSetup = {};
+                                }
+
+                                ctrl.vjsSetup.aspectRatio = ctrl.vjsRatio;
+                            }
                         } else {
                             //set width and height of video to auto
                             vid.setAttribute('width', 'auto');
