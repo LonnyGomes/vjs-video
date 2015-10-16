@@ -21,7 +21,14 @@ angular.module('vjsVideoApp')
                         type: 'video/webm'
                     }
                 ],
-                tracks: [],
+                tracks: [
+                    {
+                        kind: 'subtitles',
+                        label: 'English subtitles',
+                        src: 'assets/subtitles.vtt',
+                        srclang: 'en'
+                    }
+                ],
                 poster: 'http://video-js.zencoder.com/oceans-clip.png'
             },
             mediaAltObj = {
