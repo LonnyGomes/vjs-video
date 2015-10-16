@@ -171,6 +171,12 @@
                     curDiv.setAttribute('label', curObj.label || "");
                     curDiv.setAttribute('src', curObj.src || "");
                     curDiv.setAttribute('srclang', curObj.srclang || "");
+
+                    //check for default flag
+                    if (curObj.default === true) {
+                        curDiv.setAttribute('default', "");
+                    }
+
                     div.appendChild(curDiv);
                 });
             }

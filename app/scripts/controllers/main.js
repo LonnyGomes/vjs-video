@@ -26,7 +26,8 @@ angular.module('vjsVideoApp')
                         kind: 'subtitles',
                         label: 'English subtitles',
                         src: 'assets/subtitles.vtt',
-                        srclang: 'en'
+                        srclang: 'en',
+                        default: true
                     }
                 ],
                 poster: 'http://video-js.zencoder.com/oceans-clip.png'
