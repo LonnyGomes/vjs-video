@@ -117,13 +117,15 @@ describe('Directive: vjs.directive.js', function () {
 
                     expect(curChild.nodeName).to.equal('SOURCE');
                     expect(curChild.getAttribute('src')).to.equal(
-                        scope.testMedia.sources[curIdx].src);
+                        scope.testMedia.sources[curIdx].src
+                    );
                     expect(curChild.getAttribute('type')).to.equal(
-                        scope.testMedia.sources[curIdx].type);
+                        scope.testMedia.sources[curIdx].type
+                    );
                 }
             });
 
-            it('should generate source DOM elements', function () {
+            it('should generate track DOM elements', function () {
                 scope.testMedia = {
                     tracks: [{
                         kind: 'subtitles',
@@ -132,7 +134,93 @@ describe('Directive: vjs.directive.js', function () {
                         srclang: 'en'
                     }]
                 };
-                compileAndLink(vidWithMediaNoVals, scope);
+
+                var el = compileAndLink(vidWithMediaNoVals, scope),
+                    children = el.children(),
+                    curChild = el.children()[0];
+
+                expect(el.children().length).to.equal(1);
+                expect(curChild.nodeName).to.equal('TRACK');
+                expect(curChild.getAttribute('kind')).to.equal('subtitles');
+                expect(curChild.getAttribute('label')).to.equal('english subtitles');
+                expect(curChild.getAttribute('src')).to.equal('subtitles.vtt');
+                expect(curChild.getAttribute('srclang')).to.equal('en');
+
+            });
+
+            it('should generate multiple track DOM elements when specified', function () {
+                scope.testMedia = {
+                    tracks: [{
+                        kind: 'subtitles',
+                        label: 'english subtitles',
+                        src: 'subtitles.vtt',
+                        srclang: 'en'
+                    }, {
+                        kind: 'captions',
+                        label: 'portuguese subtitles',
+                        src: 'subtitles_pt.vtt',
+                        srclang: 'pt'
+                    }]
+                };
+
+                var el = compileAndLink(vidWithMediaNoVals, scope),
+                    children = el.children(),
+                    curIdx,
+                    curChild;
+
+                expect(el.children().length).to.equal(2);
+
+                for (curIdx = 0; curIdx < el.children().length; curIdx += 1) {
+                    curChild = el.children()[curIdx];
+
+                    expect(curChild.nodeName).to.equal('TRACK');
+                    expect(curChild.getAttribute('kind')).to.equal(
+                        scope.testMedia.tracks[curIdx].kind
+                    );
+                    expect(curChild.getAttribute('label')).to.equal(
+                        scope.testMedia.tracks[curIdx].label
+                    );
+                    expect(curChild.getAttribute('src')).to.equal(
+                        scope.testMedia.tracks[curIdx].src
+                    );
+                    expect(curChild.getAttribute('srclang')).to.equal(
+                        scope.testMedia.tracks[curIdx].srclang
+                    );
+                }
+            });
+
+            it('should generate track DOM element with default tag when specified', function () {
+                scope.testMedia = {
+                    tracks: [{
+                        default: true
+                    }]
+                };
+
+                var el = compileAndLink(vidWithMediaNoVals, scope),
+                    children = el.children(),
+                    curChild = el.children()[0];
+
+                expect(el.children().length).to.equal(1);
+                expect(curChild.nodeName).to.equal('TRACK');
+                expect(curChild.getAttribute('default')).to.exist;
+
+            });
+
+             it('should generate track DOM element without default tag if false', function () {
+                scope.testMedia = {
+                    tracks: [{
+                        default: false
+                    }]
+                };
+
+                var el = compileAndLink(vidWithMediaNoVals, scope),
+                    children = el.children(),
+                    curChild = el.children()[0];
+
+                expect(el.children().length).to.equal(1);
+                expect(curChild.nodeName).to.equal('TRACK');
+                expect(curChild.getAttribute('default')).to.not.exist;
+
             });
         });
     });
