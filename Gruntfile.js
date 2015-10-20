@@ -385,10 +385,24 @@ module.exports = function (grunt) {
     karma: {
       unit: {
         configFile: 'test/karma.conf.js',
-        singleRun: true
+        singleRun: false
+      }
+    },
+
+    //set deploy settings
+    deploy_site: {
+      ghPages: {
+          options: {
+              branch: 'gh-pages',
+              commit_msg: 'deployment build',
+              deploy_url: 'http://lonnygomes.github.io/vjs-video',
+              verbose: true
+          },
+          base_path: 'app',
+          remote_url: 'git@github.com:LonnyGomes/vjs-video.git'
       }
     }
-  });
+});
 
 
   grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
