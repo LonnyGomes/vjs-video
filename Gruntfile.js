@@ -351,7 +351,9 @@ module.exports = function (grunt) {
             '.htaccess',
             '*.html',
             'images/{,*/}*.{webp}',
-            'styles/fonts/{,*/}*.*'
+            'styles/fonts/{,*/}*.*',
+            'assets/*.*',
+            '../../bower_components/video.js/dist/video-js/font/'
           ]
         }, {
           expand: true,
@@ -365,6 +367,15 @@ module.exports = function (grunt) {
         cwd: '<%= yeoman.app %>/styles',
         dest: '.tmp/styles/',
         src: '{,*/}*.css'
+      },
+      bower: {
+        expand: true,
+        dest: '<%= yeoman.dist %>/styles',
+        cwd: 'bower_components/video.js/dist/video-js/',
+        dot: true,
+        src: [
+          'font/*.*'
+        ]
       }
     },
 
@@ -398,7 +409,7 @@ module.exports = function (grunt) {
               deploy_url: 'http://lonnygomes.github.io/vjs-video',
               verbose: true
           },
-          base_path: 'app',
+          base_path: 'dist',
           remote_url: 'git@github.com:LonnyGomes/vjs-video.git'
       }
     }
@@ -444,12 +455,18 @@ module.exports = function (grunt) {
     'concat',
     'ngAnnotate',
     'copy:dist',
+    'copy:bower',
     'cdnify',
     'cssmin',
     'uglify',
     'filerev',
     'usemin',
     'htmlmin'
+  ]);
+
+  grunt.registerTask('deploy', [
+    'build',
+    'deploy_site'
   ]);
 
   grunt.registerTask('default', [
