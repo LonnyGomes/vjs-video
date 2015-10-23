@@ -28,6 +28,7 @@ module.exports = function(config) {
       'bower_components/angular-mocks/angular-mocks.js',
       'bower_components/sinonjs/sinon.js',
       'bower_components/bootstrap-css/js/bootstrap.min.js',
+      'bower_components/angular-gist/angular-gist.min.js',
       // endbower
       'app/scripts/**/*.js',
       'test/mock/**/*.js',

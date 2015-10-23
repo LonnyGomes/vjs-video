@@ -10,5 +10,6 @@
  */
 angular
     .module('vjsVideoApp', [
-        'vjs.video'
+        'vjs.video',
+        'gist'
     ]);
