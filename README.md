@@ -4,7 +4,7 @@
 
 An angular.js directive for video.js
 
-With `vjs-video`, you can easily incorporate video into your Angular projects using the roubust HTML video player `video.js`. The directive also adds additional features such as data-binded media sources and a responsive video container (for video.js 4.x). `vjs-video` works 4.x and 5.x versions of `video.js` just in case you're not ready to upgrade.
+With `vjs-video` you can easily incorporate video into your Angular projects using the roubust HTML video player `video.js`. The directive also adds additional features such as data-binded media sources and a responsive video container (for video.js 4.x). `vjs-video` works 4.x and 5.x versions of `video.js` just in case you're not ready to upgrade.
 
 ## Dependencies
 
