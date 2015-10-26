@@ -25,16 +25,21 @@ body {
 }
 
 h3 {
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto Condensed', sans-serif;
     margin-bottom: 4px;
 }
 
 .navbar {
-    background-color: #010c33;
+    background-color: #4e4e4e;
 }
 
 .navbar-brand {
     font-family: 'Roboto Condensed', sans-serif;
     font-weight: 700;
     color: #ccc !important;
+}
+
+
+.toggle-btn {
+    margin: 10px 0px;
 }
