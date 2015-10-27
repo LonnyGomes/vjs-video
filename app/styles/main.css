@@ -43,3 +43,12 @@ h3 {
 .toggle-btn {
     margin: 10px 0px;
 }
+
+.tagline {
+    padding-bottom: 25px;
+}
+
+.gh-iframe {
+    margin-top: 15px;
+    margin-left: 0;
+}
