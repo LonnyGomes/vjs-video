@@ -3,3 +3,5 @@
 /.tmp
 /.sass-cache
 /bower_components
+/.ghPages_site
+/site_dist

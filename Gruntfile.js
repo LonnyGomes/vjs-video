@@ -22,7 +22,7 @@ module.exports = function (grunt) {
   // Configurable paths for the application
   var appConfig = {
     app: require('./bower.json').appPath || 'app',
-    dist: 'dist'
+    dist: 'site_dist'
   };
 
   // Define the configuration for all the tasks
@@ -409,7 +409,7 @@ module.exports = function (grunt) {
               deploy_url: 'http://lonnygomes.github.io/vjs-video',
               verbose: true
           },
-          base_path: 'dist',
+          base_path: '<%= yeoman.dist %>',
           remote_url: 'git@github.com:LonnyGomes/vjs-video.git'
       }
     }
@@ -418,7 +418,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
     if (target === 'dist') {
-      return grunt.task.run(['build', 'connect:dist:keepalive']);
+      return grunt.task.run(['build_site', 'connect:dist:keepalive']);
     }
 
     grunt.task.run([
@@ -445,7 +445,7 @@ module.exports = function (grunt) {
     'karma'
   ]);
 
-  grunt.registerTask('build', [
+  grunt.registerTask('build_site', [
     'clean:dist',
     'wiredep',
     'useminPrepare',
@@ -465,13 +465,13 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('deploy', [
-    'build',
+    'build_site',
     'deploy_site'
   ]);
 
   grunt.registerTask('default', [
     'newer:jshint',
     'test',
-    'build'
+    'build_site'
   ]);
 };
