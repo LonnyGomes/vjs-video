@@ -318,7 +318,7 @@
         };
     }]);
 
-    module.directive('vjsVideoContainer', function () {
+    module.directive('vjsVideoContainer', [function () {
 
         return {
             restrict: 'AE',
@@ -388,5 +388,5 @@
                 init();
             }
         };
-    });
+    }]);
 }());
