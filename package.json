@@ -43,5 +43,13 @@
   },
   "scripts": {
     "test": "grunt test"
-  }
+  },
+  "keywords": [
+    "angular",
+    "angular.js",
+    "video",
+    "video.js",
+    "vjs",
+    "directive"
+  ]
 }
