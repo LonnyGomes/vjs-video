@@ -22,7 +22,8 @@ module.exports = function (grunt) {
   // Configurable paths for the application
   var appConfig = {
     app: require('./bower.json').appPath || 'app',
-    dist: 'site_dist'
+    dist: 'site_dist',
+    srcDist: 'dist'
   };
 
   // Define the configuration for all the tasks
@@ -264,15 +265,16 @@ module.exports = function (grunt) {
     //     }
     //   }
     // },
-    // uglify: {
-    //   dist: {
-    //     files: {
-    //       '<%= yeoman.dist %>/scripts/scripts.js': [
-    //         '<%= yeoman.dist %>/scripts/scripts.js'
-    //       ]
-    //     }
-    //   }
-    // },
+    uglify: {
+      options: {
+        mangle: true
+      },
+      srcDist: {
+        files: {
+          '<%= yeoman.srcDist %>/vjs-video.min.js': ['app/scripts/directives/vjs.directive.js']
+        }
+      }
+    },
     // concat: {
     //   dist: {}
     // },
@@ -340,6 +342,15 @@ module.exports = function (grunt) {
 
     // Copies remaining files to places other tasks can use
     copy: {
+      srcDist: {
+        files: [{
+          expand: true,
+          dot: true,
+          cwd: '<%= yeoman.app %>',
+          dest: '<%= yeoman.srcDist %>/vjs-video.js',
+          src: 'scripts/directives/vjs.directive.js'
+        }]
+      },
       dist: {
         files: [{
           expand: true,
@@ -444,6 +455,14 @@ module.exports = function (grunt) {
     'connect:test',
     'karma'
   ]);
+
+  grunt.registerTask('build', 'generate dist copy of source', function (target) {
+    grunt.file.mkdir("<%= yeoman.dist %>");
+    grunt.task.run([
+        'copy:srcDist',
+        'uglify:srcDist'
+    ]);
+  });
 
   grunt.registerTask('build_site', [
     'clean:dist',
