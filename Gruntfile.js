@@ -151,7 +151,8 @@ module.exports = function (grunt) {
           ]
         }]
       },
-      server: '.tmp'
+      server: '.tmp',
+      srcDist: '<%= yeoman.srcDist %>'
     },
 
     // Add vendor prefixed styles
@@ -346,9 +347,12 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           dot: true,
-          cwd: '<%= yeoman.app %>',
-          dest: '<%= yeoman.srcDist %>/vjs-video.js',
-          src: 'scripts/directives/vjs.directive.js'
+          cwd: '<%= yeoman.app %>/scripts/directives/',
+          dest: '<%= yeoman.srcDist %>/',
+          src: 'vjs.directive.js',
+          rename: function (dest, src) {
+            return dest + 'vjs-video.js';
+          }
         }]
       },
       dist: {
@@ -459,6 +463,7 @@ module.exports = function (grunt) {
   grunt.registerTask('build', 'generate dist copy of source', function (target) {
     grunt.file.mkdir("<%= yeoman.dist %>");
     grunt.task.run([
+        'clean:srcDist',
         'copy:srcDist',
         'uglify:srcDist'
     ]);
