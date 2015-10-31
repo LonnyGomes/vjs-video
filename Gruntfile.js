@@ -119,6 +119,29 @@ module.exports = function (grunt) {
       }
     },
 
+    // Browser sync version of livereload
+    browserSync: {
+      dev: {
+        bsFiles: {
+          src : [
+              '<%= yeoman.app %>/scripts/{,*/}*.js',
+              '<%= yeoman.app %>/styles/{,*/}*.css',
+              '<%= yeoman.app %>/{,*/}*.html'
+          ]
+        },
+        options: {
+          watchTask: true,
+          server: {
+            baseDir: '<%= yeoman.app %>',
+            routes: {
+              '/bower_components': './bower_components'
+            }
+          }
+        }
+      }
+    },
+
+
     // Make sure code styles are up to par and there are no obvious mistakes
     jshint: {
       options: {
@@ -464,6 +487,16 @@ module.exports = function (grunt) {
       'watch'
     ]);
   });
+
+  grunt.registerTask('browserServe',[
+    'clean:server',
+    'wiredep',
+    'concurrent:server',
+    'autoprefixer:server',
+    'browserSync:dev',
+    'watch'
+  ]);
+
 
   grunt.registerTask('server', 'DEPRECATED TASK. Use the "serve" task instead', function (target) {
     grunt.log.warn('The `server` task has been deprecated. Use `grunt serve` to start a server.');
