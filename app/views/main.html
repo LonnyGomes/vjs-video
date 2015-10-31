@@ -1,6 +1,6 @@
 <h3>Fixed size</h3>
 
-<video id="example_video_1" class="video-js vjs-default-skin" controls preload="auto" width="640" height="264" poster="http://video-js.zencoder.com/oceans-clip.png" vjs-video vjs-setup="options">
+<video ng-if="!isSmallScreen()" id="example_video_1" class="video-js vjs-default-skin" controls preload="auto" width="640" height="264" poster="http://video-js.zencoder.com/oceans-clip.png" vjs-video vjs-setup="options">
     <source src="http://video-js.zencoder.com/oceans-clip.mp4" type='video/mp4' />
     <source src="http://video-js.zencoder.com/oceans-clip.webm" type='video/webm' />
     <source src="http://video-js.zencoder.com/oceans-clip.ogv" type='video/ogg' />
@@ -8,7 +8,18 @@
     </p>
 </video>
 
-<gist id="793356c48eaea4451b6e"></gist>
+<video ng-if="isSmallScreen()" id="example_video_1" class="video-js vjs-default-skin" controls preload="auto" width="320" height="132" poster="http://video-js.zencoder.com/oceans-clip.png" vjs-video vjs-setup="options">
+    <source src="http://video-js.zencoder.com/oceans-clip.mp4" type='video/mp4' />
+    <source src="http://video-js.zencoder.com/oceans-clip.webm" type='video/webm' />
+    <source src="http://video-js.zencoder.com/oceans-clip.ogv" type='video/ogg' />
+    <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+    </p>
+</video>
+
+<gist ng-if="!isSmallScreen()" id="793356c48eaea4451b6e"></gist>
+<div ng-show="isSmallScreen()">
+    <a class="btn btn-primary btn-sm btn-link code-btn" href="https://gist.github.com/LonnyGomes/793356c48eaea4451b6e">Veiw Code</a>
+</div>
 
 <h3>Responsive</h3>
 <vjs-video-container vjs-ratio="640:264">
@@ -21,17 +32,29 @@
     </video>
 </vjs-video-container>
 
-<gist id="e67dbc19e5548376cdc4"></gist>
+<gist ng-if="!isSmallScreen()" id="e67dbc19e5548376cdc4"></gist>
+<div ng-show="isSmallScreen()">
+    <a class="btn btn-primary btn-sm btn-link code-btn" href="https://gist.github.com/LonnyGomes/e67dbc19e5548376cdc4">Veiw Code</a>
+</div>
 
 <h3>Bindable sources/tracks</h3>
-<video id="example_video_1" class="video-js vjs-default-skin" controls preload="auto" width="640" height="264" poster="http://video-js.zencoder.com/oceans-clip.png" vjs-video vjs-media="media">
+<video ng-if="!isSmallScreen()" class="video-js vjs-default-skin" controls preload="auto" width="640" height="264" poster="http://video-js.zencoder.com/oceans-clip.png" vjs-video vjs-media="media">
     <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
 </video>
 
-<gist id="d75e8c1704668283e049"></gist>
+<video ng-if="isSmallScreen()" class="video-js vjs-default-skin" controls preload="auto" width="320" height="132" poster="http://video-js.zencoder.com/oceans-clip.png" vjs-video vjs-media="media">
+    <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+</video>
+
+<gist ng-if="!isSmallScreen()" id="d75e8c1704668283e049"></gist>
+<div ng-show="isSmallScreen()">
+    <a class="btn btn-primary btn-sm btn-link code-btn" href="https://gist.github.com/LonnyGomes/d75e8c1704668283e049">Veiw Code</a>
+</div>
 
 <h3>Bindable sources toggle example</h3>
 
-<video class="video-js vjs-default-skin" controls preload="auto" width="592" height="252" vjs-video vjs-media="mediaToggle"></video>
+<video ng-if="!isSmallScreen()" class="video-js vjs-default-skin" controls preload="auto" width="592" height="252" vjs-video vjs-media="mediaToggle"></video>
+
+<video ng-if="isSmallScreen()" class="video-js vjs-default-skin" controls preload="auto" width="340" height="145" vjs-video vjs-media="mediaToggle"></video>
 
 <button class="btn btn-primary btn-lg toggle-btn" ng-click="toggleMedia()">Toggle Media</button>

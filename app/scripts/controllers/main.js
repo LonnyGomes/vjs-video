@@ -1,4 +1,4 @@
-/*global angular */
+/*global angular, $ */
 /**
  * @ngdoc function
  * @name vjsVideoApp.controller:MainCtrl
@@ -61,6 +61,10 @@ angular.module('vjsVideoApp')
 
         scope.options = {
             loop: true
+        };
+
+        scope.isSmallScreen = function () {
+            return $(window).width() < 650 ? true : false;
         };
 
         scope.media = mediaObj;
