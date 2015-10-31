@@ -1,6 +1,8 @@
 # vjs-video
 
 [![Build Status](https://travis-ci.org/LonnyGomes/vjs-video.svg)](https://travis-ci.org/LonnyGomes/vjs-video)
+[![npm version](https://badge.fury.io/js/vjs-video.svg)](https://badge.fury.io/js/vjs-video)
+[![Bower version](https://badge.fury.io/bo/vjs-video.svg)](https://badge.fury.io/bo/vjs-video)
 
 An angular.js directive for video.js
 
