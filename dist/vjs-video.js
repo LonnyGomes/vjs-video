@@ -276,10 +276,13 @@
                     init = function () {
                         vid = ctrl.getVidElement(element);
 
-                        ctrl.initVideoJs(vid, ctrl, element, mediaChangedHandler);
                         //attach transcluded content
                         transclude(function (content) {
                             element.append(content);
+
+                            //now that the transcluded content is injected
+                            //initialize video.js
+                            ctrl.initVideoJs(vid, ctrl, element, mediaChangedHandler);
                         });
                     };
 
