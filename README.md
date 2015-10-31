@@ -185,6 +185,11 @@ Running `grunt test` will run the unit tests with karma.
 
 ## Release History
 
+**_v0.1.1_**
+
+* fixed issue where `vjs-video` didn't consistently work on mobile devices (#10)
+* updated GitHub pages site to be more mobile friendly
+
 **_v0.1.0_**
 
 * initial release of vjs-video
