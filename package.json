@@ -1,6 +1,14 @@
 {
   "name": "vjs-video",
   "version": "0.1.0",
+  "homepage": "http://lonnygomes.github.io/vjs-video/",
+  "author": {
+    "name": "Lonny Gomes"
+  },
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/LonnyGomes/vjs-video.git"
+  },
   "main": "dist/vjs-video.min.js",
   "private": false,
   "devDependencies": {
@@ -54,5 +62,6 @@
     "video.js",
     "vjs",
     "directive"
-  ]
+  ],
+  "license": "MIT"
 }
