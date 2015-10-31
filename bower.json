@@ -15,6 +15,7 @@
   },
   "appPath": "app",
   "moduleName": "vjsVideoApp",
+  "ignore": [],
   "keywords": [
     "angular",
     "angular.js",
