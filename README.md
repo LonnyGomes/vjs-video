@@ -6,7 +6,7 @@
 
 An angular.js directive for video.js
 
-With `vjs-video` you can easily incorporate video into your Angular projects using the roubust HTML video player `video.js`. The directive also adds additional features such as data-binded media sources and a responsive video container (for video.js 4.x). `vjs-video` works 4.x and 5.x versions of `video.js` just in case you're not ready to upgrade.
+With `vjs-video` you can easily incorporate video into your Angular projects using the roubust HTML video player `video.js`. The directive also adds additional features such as data-binded media sources and a responsive video container (for video.js 4.x). `vjs-video` works with 4.x and 5.x versions of `video.js` just in case you're not ready to upgrade.
 
 ## Dependencies
 
@@ -17,7 +17,7 @@ With `vjs-video` you can easily incorporate video into your Angular projects usi
 
 ## Bower Install
 
-The recomended method for installing `vjs-video` is via bower
+The recomended method for installing `vjs-video` is via bower however it also is available in npm.
 
 ```bash
 bower install vjs-video
@@ -65,9 +65,9 @@ Add the directive to a video tag, using video.js parameters as normal and it wil
 
 ## Responsive Container
 
-The `vjs-container` directive implments responsive scaling for your video.js videos. By default it assumes a wide screen 16:9 ratio however any custom ratio can be supplied.
+The `vjs-video-container` directive implments responsive sizing for your video.js videos. By default it assumes a wide screen 16:9 ratio however any custom ratio can be supplied.
 
-> responsive video comes shipped with video.js 5.0 and should be used instead; however if used with 5.0, `vjs-container` the aspect ratio values are passed through to `video.js`.
+> responsive video comes shipped with video.js 5.0 and should be used instead of this directive; however if used with 5.0, the `vjs-video-container` aspect ratio values are passed through to `video.js`.
 
 The following example wraps a video.js instance within a responsive container with a ratio of 4:3.
 
@@ -92,7 +92,7 @@ You can use `vjs-setup` instead of the `data-setup` attribute `video.js` uses if
 
 The following example will set the loop option for the `video.js` instance using the `vjs-setup` attribute:
 
-#### HTML
+_HTML_
 
 ```
 <video class="video-js vjs-default-skin" controls preload="auto"
@@ -101,7 +101,8 @@ The following example will set the loop option for the `video.js` instance using
 </video>
 ```
 
-#### JavaScript
+_JavaScript_
+
 ```
 angular.module('app')
     .controller('MainCtrl', ['$scope', function (scope) {
@@ -118,14 +119,15 @@ The `vjs-media` option expects a reference to an object that contains a `sources
 
 The following example defines a poster image, two sources and one track in a scope variable that is processed by `vjs-video`.
 
-#### HTML
+_HTML_
 
 ```
 <video class="video-js vjs-default-skin" controls preload="auto"
        width="592" height="252" vjs-video vjs-media="mediaToggle">
 </video>
 ```
-#### JavaScript
+_JavaScript_
+
 ```JavaScript
 angular.module('app')
     .controller('MainCtrl', ['$scope', function (scope) {
