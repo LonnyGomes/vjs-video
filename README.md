@@ -10,7 +10,7 @@ With `vjs-video` you can easily incorporate video into your Angular projects usi
 
 ## Dependencies
 
-* video.js >= 4.x
+* video.js (4.x or 5.x)
 * angular.js >= 1.3
 
 ## Installation
