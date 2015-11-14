@@ -67,9 +67,13 @@ Add the directive to a video tag, using video.js parameters as normal and it wil
 
 The `vjs-video-container` directive implments responsive sizing for your video.js videos. By default it assumes a wide screen 16:9 ratio however any custom ratio can be supplied.
 
-> responsive video comes shipped with video.js 5.0 and should be used instead of this directive; however if used with 5.0, the `vjs-video-container` aspect ratio values are passed through to `video.js`.
+__NOTE:__ Responsive video comes shipped with video.js 5.0 and should be used instead of this directive; however if used with 5.0, the `vjs-video-container` aspect ratio values are passed through to `video.js`.
 
 The following example wraps a video.js instance within a responsive container with a ratio of 4:3.
+
+> When using `vjs-video-container` be sure to attach all the directive attributes (such as `vjs-setup` or `vjs-media`) as attributes to the `vjs-video-container` element rather than on the enclosed video tag. The attributes only should be attached when using in conjunction with the `vjs-video` directive on a video tag.
+
+> Also be sure to never mix usage of `vjs-video-container` with `vjs-video`. The `vjs-video` directive accepts the same directive attributes except `vjs-ratio` and shouldn't be used if a video tag is wrapped inside of a `vjs-video-container`.
 
 ```
 <vjs-video-container vjs-ratio="4:3">
