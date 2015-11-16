@@ -12,6 +12,10 @@ describe('Directive: vjs.directive.js', function () {
         nonVidStr = "<div vjs-video>",
         vidContainerStr = "<div vjs-video-container><video></video></div>",
         vidElementContainerStr = "<vjs-video-container><video></video></vjs-video-container>",
+        vidElementContainerVjsVidStr = "<vjs-video-container><video vjs-video></video></vjs-video-container>",
+        vidElementContainerVjsSetupStr = "<vjs-video-container><video vjs-setup></video></vjs-video-container>",
+        vidElementContainerVjsMediaStr = "<vjs-video-container><video vjs-media></video></vjs-video-container>",
+        vidElementContainerVjsRatioStr = "<vjs-video-container><video vjs-ratio></video></vjs-video-container>",
         nonVidContainerStr = "<div vjs-video-container></div>",
         multVidsContainerStr = "<div vjs-video-container><video></video><video></video></div>",
         vidContainerWithDimsStr = "<div vjs-video-container><video id='vid-dim' width='320' height='320'></video></div>",
@@ -226,6 +230,9 @@ describe('Directive: vjs.directive.js', function () {
     });
 
     describe('vjs-video-container', function () {
+        var vjsAttributeErrStr = 'directive attributes should not be used on ' +
+            'the video tag when using vjs-video-container!';
+
         it('should throw an error if container does not have a video tag defined', function () {
             expect(function () {
                 var el = compileAndLink(nonVidContainerStr, scope);
@@ -262,6 +269,30 @@ describe('Directive: vjs.directive.js', function () {
                 vid = el.find('#vid-dim');
 
             expect(vid.attr('style')).to.not.exist;
+        });
+
+        it('should throw an error is vjs-video is defined on the video tag', function () {
+             expect(function () {
+                var el = compileAndLink(vidElementContainerVjsVidStr, scope);
+            }).throws(Error, 'vjs-video should not be used on the video tag when using vjs-video-container!');
+        });
+
+        it('should throw an error is vjs-setup is defined on the video tag', function () {
+             expect(function () {
+                var el = compileAndLink(vidElementContainerVjsSetupStr, scope);
+            }).throws(Error, vjsAttributeErrStr);
+        });
+
+        it('should throw an error is vjs-media is defined on the video tag', function () {
+             expect(function () {
+                var el = compileAndLink(vidElementContainerVjsMediaStr, scope);
+            }).throws(Error, vjsAttributeErrStr);
+        });
+
+        it('should throw an error is vjs-ratio is defined on the video tag', function () {
+             expect(function () {
+                var el = compileAndLink(vidElementContainerVjsRatioStr, scope);
+            }).throws(Error, vjsAttributeErrStr);
         });
 
         describe('vjs-ratio', function () {
