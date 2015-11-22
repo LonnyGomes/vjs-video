@@ -356,6 +356,27 @@
                     init = function () {
                         vid = ctrl.getVidElement(element, true);
 
+                        //we want to confirm that the vjs-video directive or
+                        //any corresponding attributes are not defined on the
+                        //internal video element
+                        if (vid.getAttribute('vjs-video') !== null) {
+                            throw new Error(
+                                'vjs-video should not be used on the video ' +
+                                'tag when using vjs-video-container!');
+                        }
+
+                        //we also want to make sure that no vjs-* attributes
+                        //are included on the internal video tag
+                        if ((vid.getAttribute('vjs-setup') !== null) ||
+                            (vid.getAttribute('vjs-media') !== null) ||
+                            (vid.getAttribute('vjs-ratio') !== null)) {
+                            throw new Error(
+                                'directive attributes should not be used on ' +
+                                'the video tag when using vjs-video-container!'
+                            );
+
+                        }
+
                         //check if video.js version 5.x is running
                         if (getVersion().match(/^5\./)) {
 
