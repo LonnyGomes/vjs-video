@@ -256,8 +256,8 @@
             restrict: 'A',
             transclude: true,
             scope: {
-                vjsSetup: '=',
-                vjsMedia: '='
+                vjsSetup: '=?',
+                vjsMedia: '=?'
             },
             controller: 'VjsVideoController',
             controllerAs: 'vjsCtrl',
@@ -328,9 +328,9 @@
             transclude: true,
             template: '<div class="vjs-directive-container"><div ng-transclude></div></div>',
             scope: {
-                vjsSetup: '=',
+                vjsSetup: '=?',
                 vjsRatio: '@',
-                vjsMedia: '='
+                vjsMedia: '=?'
             },
             controller: 'VjsVideoController',
             controllerAs: 'vjsCtrl',
