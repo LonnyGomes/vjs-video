@@ -235,7 +235,8 @@
                 //emit ready event with reference to video
                 $scope.$emit('vjsVideoReady', {
                     id: vid.getAttribute('id'),
-                    vid: this
+                    vid: this,
+                    controlBar: this.controlBar
                 });
             });
 

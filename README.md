@@ -166,7 +166,7 @@ The `vjs-ratio` only works in conjunction with the `vjs-video-container` directi
 
 ## Getting a reference to the videojs instance
 
-There are times will you will want to get access to the video object that `video.js` creates. The vjs directive dispatches an event after initialization and can be accessed by listening on the scope for the `vjsVideoReady` event.
+There are times will you will want to get access to the video object that `video.js` creates. The vjs directive dispatches an event after initialization and can be accessed by listening on the scope for the `vjsVideoReady` event. 
 
 ```
 angular.module('app')
@@ -175,9 +175,16 @@ angular.module('app')
             //data contains `id` and `vid`
             console.log('video id:' + data.id);
             console.log('video.js instance:' + data.vid);
+            console.log('video.js controlBar instance:' + data.controlBar);
         });
     }]);
 ```
+
+The second parameter of the callback is a data object which contains the following:
+
+* __id__: the CSS id value for the video
+* __vid__: the video.js object that represnts the video
+* __controlBar__: the controlBar element of the video.js object
 
 ## Build & development
 
