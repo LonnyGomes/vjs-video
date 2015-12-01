@@ -69,7 +69,11 @@ describe('Directive: vjs.directive.js', function () {
         it('should dispatch a ready event upon successful load', function (done) {
             var el;
             scope.$on('vjsVideoReady', function (e, data) {
+                expect(data.id).to.exist;
+                expect(data.vid).to.exist;
+                expect(data.controlBar).to.exist;
                 expect(data.id).to.match(/^vidId/);
+                expect(data.controlBar).to.equal(data.vid.controlBar);
                 done();
             });
             el = compileAndLink(vidWithIdStr, scope);
