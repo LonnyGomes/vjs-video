@@ -196,6 +196,11 @@ Running `grunt test` will run the unit tests with karma.
 
 ## Release History
 
+**_v0.1.3_**
+
+* fixed issue where vjs-ratio threw an angular error in certain cases (#15)
+* added reference to a video's controlBar in the vjsVideoReady callback (#17)
+
 **_v0.1.2_**
 
 * added checks for mixed use of the `vjs-video` and `vjs-video-container` directives (#13)
