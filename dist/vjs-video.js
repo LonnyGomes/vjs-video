@@ -258,6 +258,7 @@
             transclude: true,
             scope: {
                 vjsSetup: '=?',
+                vjsRatio: '@',
                 vjsMedia: '=?'
             },
             controller: 'VjsVideoController',
@@ -276,6 +277,19 @@
                     },
                     init = function () {
                         vid = ctrl.getVidElement(element);
+
+                        //check if video.js version 5.x is running
+                        if (getVersion().match(/^5\./)) {
+                            //if vjsRatio is defined,
+                            //add it to the vjsSetup options
+                            if (ctrl.vjsRatio) {
+                                if (!ctrl.vjsSetup) {
+                                    ctrl.vjsSetup = {};
+                                }
+
+                                ctrl.vjsSetup.aspectRatio = ctrl.vjsRatio;
+                            }
+                        }
 
                         //attach transcluded content
                         transclude(function (content) {
