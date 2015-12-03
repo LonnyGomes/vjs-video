@@ -1,6 +1,6 @@
 {
   "name": "vjs-video",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "An angular js directive for video.js",
   "main": "dist/vjs-video.min.js",
   "authors": [
