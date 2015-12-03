@@ -196,6 +196,10 @@ Running `grunt test` will run the unit tests with karma.
 
 ## Release History
 
+**_v0.1.4_**
+
+* added vjs-ratio support to vjs-video directive when using video.js >= 5.x (#19)
+
 **_v0.1.3_**
 
 * fixed issue where vjs-ratio threw an angular error in certain cases (#15)
