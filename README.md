@@ -88,7 +88,9 @@ The vjs-directive supports optional attributes to extend capabilities.
 
 * vjs-setup - an alternative to using data-setup on the video element
 * vjs-media - an alternative way of defining for sources and tracks
-* vjs-ratio - _(only works for `vjs-video-container` with vidoe.js < v5.x)_ defines the aspect ratio in the format width:height.
+* vjs-ratio - defines the aspect ratio in the format width:height.
+
+_*NOTE:*_ the `vjs-ratio` attribute support is limited to usage with the `vjs-video-container` item when using `video.js` < 5.0. In 5.0 and above, `vjs-ratio` can be used with the `vjs-video` directive as well.
 
 ### vjs-setup
 
