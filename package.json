@@ -1,6 +1,7 @@
 {
   "name": "vjs-video",
   "version": "0.1.4",
+  "description": "An angular js directive for video.js",
   "homepage": "http://lonnygomes.github.io/vjs-video/",
   "author": {
     "name": "Lonny Gomes"
