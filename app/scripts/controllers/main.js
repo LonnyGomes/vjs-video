@@ -13,11 +13,11 @@ angular.module('vjsVideoApp')
         var mediaObj = {
                 sources: [
                     {
-                        src: 'http://video-js.zencoder.com/oceans-clip.mp4',
+                        src: 'http://vjs.zencdn.net/v/oceans.mp4',
                         type: 'video/mp4'
                     },
                     {
-                        src: 'http://video-js.zencoder.com/oceans-clip.webm',
+                        src: 'http://vjs.zencdn.net/v/oceans.webm',
                         type: 'video/webm'
                     }
                 ],
@@ -30,7 +30,7 @@ angular.module('vjsVideoApp')
                         default: true
                     }
                 ],
-                poster: 'http://video-js.zencoder.com/oceans-clip.png'
+                poster: 'http://vjs.zencdn.net/v/oceans.png'
             },
             mediaAltObj = {
                 sources: [
