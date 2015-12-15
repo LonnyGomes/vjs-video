@@ -1,10 +1,10 @@
 # vjs-video
 
+An angular.js directive for video.js
+
 [![Build Status](https://travis-ci.org/LonnyGomes/vjs-video.svg)](https://travis-ci.org/LonnyGomes/vjs-video)
 [![npm version](https://badge.fury.io/js/vjs-video.svg)](https://badge.fury.io/js/vjs-video)
 [![Bower version](https://badge.fury.io/bo/vjs-video.svg)](https://badge.fury.io/bo/vjs-video)
-
-An angular.js directive for video.js
 
 With `vjs-video` you can easily incorporate video into your Angular projects using the roubust HTML video player `video.js`. The directive also adds additional features such as data-binded media sources and a responsive video container (for video.js 4.x). `vjs-video` works with 4.x and 5.x versions of `video.js` just in case you're not ready to upgrade.
 
@@ -178,6 +178,7 @@ angular.module('app')
             console.log('video id:' + data.id);
             console.log('video.js instance:' + data.vid);
             console.log('video.js controlBar instance:' + data.controlBar);
+            console.log('video.js player instance:' + data.player);
         });
     }]);
 ```
@@ -187,6 +188,7 @@ The second parameter of the callback is a data object which contains the followi
 * __id__: the CSS id value for the video
 * __vid__: the video.js object that represnts the video
 * __controlBar__: the controlBar element of the video.js object
+* __player__: the video.js player object instance
 
 ## Build & development
 
