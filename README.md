@@ -176,9 +176,8 @@ angular.module('app')
         scope.$on('vjsVideoReady', function (e, data) {
             //data contains `id` and `vid`
             console.log('video id:' + data.id);
-            console.log('video.js instance:' + data.vid);
-            console.log('video.js controlBar instance:' + data.controlBar);
             console.log('video.js player instance:' + data.player);
+            console.log('video.js controlBar instance:' + data.controlBar);
         });
     }]);
 ```
@@ -186,9 +185,9 @@ angular.module('app')
 The second parameter of the callback is a data object which contains the following:
 
 * __id__: the CSS id value for the video
-* __vid__: the video.js object that represnts the video
-* __controlBar__: the controlBar element of the video.js object
 * __player__: the video.js player object instance
+* __vid__: the video.js player object instance _(**deprecated**, use `player` instead)_
+* __controlBar__: the controlBar element of the video.js object
 
 ## Build & development
 
