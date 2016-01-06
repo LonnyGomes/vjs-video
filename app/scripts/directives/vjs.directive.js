@@ -236,8 +236,8 @@
                 $scope.$emit('vjsVideoReady', {
                     id: vid.getAttribute('id'),
                     vid: this,
-                    controlBar: this.controlBar,
-                    player: this.player(),
+                    player: this,
+                    controlBar: this.controlBar
                 });
             });
 

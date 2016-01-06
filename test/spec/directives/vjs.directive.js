@@ -72,8 +72,10 @@ describe('Directive: vjs.directive.js', function () {
                 expect(data.id).to.exist;
                 expect(data.vid).to.exist;
                 expect(data.controlBar).to.exist;
+                expect(data.player).to.exist;
                 expect(data.id).to.match(/^vidId/);
                 expect(data.controlBar).to.equal(data.vid.controlBar);
+                expect(data.player).to.equal(data.vid.player);
                 done();
             });
             el = compileAndLink(vidWithIdStr, scope);
