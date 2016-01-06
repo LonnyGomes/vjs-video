@@ -75,7 +75,9 @@ describe('Directive: vjs.directive.js', function () {
                 expect(data.player).to.exist;
                 expect(data.id).to.match(/^vidId/);
                 expect(data.controlBar).to.equal(data.vid.controlBar);
-                expect(data.player).to.equal(data.vid.player);
+                //vid is deprecated but we want to make sure the player referenced
+                //in vid matched the player supplied in the callback
+                expect(data.player).to.equal(data.vid.player());
                 done();
             });
             el = compileAndLink(vidWithIdStr, scope);
