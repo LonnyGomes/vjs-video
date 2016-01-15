@@ -43,7 +43,7 @@ Next include `angular`, `video.js`, the `vjs-video` directive and it's correspon
 
 ## Basic usage
 
-The `vjs-video` directive is designed to be non-invasive and easy to use. Add the directive to a video tag styled for video.js and that's all that's needed to initialize the `video.js` libaray on your video.
+The `vjs-video` directive is designed to be non-invasive and easy to use. Add the directive to a video tag styled for video.js and that's all that's needed to initialize the `video.js` library on your video.
 
 
 Before using the directive, be sure to include it as a dependency within your angular app:
