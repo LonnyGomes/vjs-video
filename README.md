@@ -200,6 +200,10 @@ Running `grunt test` will run the unit tests with karma.
 
 ## Release History
 
+**_v0.1.5_**
+
+* added player object to `vjsVideoReady` callback and deprecated the `vid` object
+
 **_v0.1.4_**
 
 * added vjs-ratio support to vjs-video directive when using video.js >= 5.x (#19)
