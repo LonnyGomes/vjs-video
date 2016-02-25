@@ -49,8 +49,7 @@ The `vjs-video` directive is designed to be non-invasive and easy to use. Add th
 Before using the directive, be sure to include it as a dependency within your angular app:
 
 ```javascript
-angular
-    .module('app', [ 'vjs.video']);
+angular.module('app', [ 'vjs.video']);
 
 ```
 
@@ -84,7 +83,7 @@ The following example wraps a video.js instance within a responsive container wi
 ```
 ## Directive Attributes
 
-The vjs-directive supports optional attributes to extend capabilities.
+The vjs-directive supports optional attributes which provide addiontional capabilities.
 
 * vjs-setup - an alternative to using data-setup on the video element
 * vjs-media - an alternative way of defining for sources and tracks
@@ -159,8 +158,14 @@ angular.module('app')
             ],
             poster: 'images/screen.jpg'
         };
+        
+        //listen for when the vjs-media object changes
+        scope.$on('vjsVideoMediaChanged', function (e, data) {
+            console.log('vjsVideoMediaChanged event was fired');
+        });
     }]);
 ```
+> In the event that the vjs-media variable changes a `vjsVideoMediaChanged` event is fired within the scope context as seen in the above example.
 
 ### vjs-ratio
 
