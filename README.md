@@ -165,7 +165,7 @@ angular.module('app')
         });
     }]);
 ```
-> In the event that the vjs-media variable changes a `vjsVideoMediaChanged` event is fired within the scope context as seen in the above example.
+> In the event that the `vjs-media` object changes, a `vjsVideoMediaChanged` event is fired within the scope context as seen in the above example.
 
 ### vjs-ratio
 
