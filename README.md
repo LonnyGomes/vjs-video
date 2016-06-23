@@ -6,7 +6,9 @@ An angular.js directive for video.js
 [![npm version](https://badge.fury.io/js/vjs-video.svg)](https://badge.fury.io/js/vjs-video)
 [![Bower version](https://badge.fury.io/bo/vjs-video.svg)](https://badge.fury.io/bo/vjs-video)
 
-With `vjs-video` you can easily incorporate video into your Angular projects using the roubust HTML video player `video.js`. The directive also adds additional features such as data-binded media sources and a responsive video container (for video.js 4.x). `vjs-video` works with 4.x and 5.x versions of `video.js` just in case you're not ready to upgrade.
+With `vjs-video` you can easily incorporate video into your Angular projects using the robust HTML video player `video.js`. The `vjs-video` directive handles all of the complexity involved with using `video.js` within an AngularJS Single Page App (SPA) including bootstrapping the video after the DOM is ready and properly disposing of the video by calling the `video.js` dispose() function when the current Angular view is out of scope and $destroy is triggered.
+
+The directive also adds additional features such as data-binded media sources and a responsive video container (for `video.js` 4.x). `vjs-video` supports the current 5.x versions of `video.js` as well as the legacy 4.x release.
 
 ## Dependencies
 
@@ -17,15 +19,15 @@ With `vjs-video` you can easily incorporate video into your Angular projects usi
 
 ## Bower Install
 
-The recomended method for installing `vjs-video` is via bower however it also is available in npm.
+The recommended method for installing `vjs-video` is via bower however it also is available in npm.
 
 ```bash
-bower install vjs-video
+bower install vjs-video --save
 ```
 
 Next include `angular`, `video.js`, the `vjs-video` directive and it's corresponding css.
 
-```
+```html
 <html ng-app="app">
   <head>
     <link rel="stylesheet" href="bower_components/video.js/dist/video-js/video-js.css" />
@@ -38,24 +40,24 @@ Next include `angular`, `video.js`, the `vjs-video` directive and it's correspon
 </html>
 ```
 
-> If you are leveraging [wiredep](https://github.com/stephenplusplus/grunt-wiredep) in your build workflow, all the required script and stylesheet includes will be injected into your html file.
+> If you leverage [wiredep](https://github.com/stephenplusplus/grunt-wiredep) in your build workflow, all the required script and stylesheet includes are automatically injected into your html file.
 
 
 ## Basic usage
 
-The `vjs-video` directive is designed to be non-invasive and easy to use. Add the directive to a video tag styled for video.js and that's all that's needed to initialize the `video.js` library on your video.
+The `vjs-video` directive is designed to be non-invasive; to use it, include `vjs-video` as a dependency and add the directive to a video tag styled for `video.js`.
 
 
-Before using the directive, be sure to include it as a dependency within your angular app:
+First include `vjs-video` as a dependency within your angular app:
 
 ```javascript
 angular.module('app', [ 'vjs.video']);
 
 ```
 
-Add the directive to a video tag, using video.js parameters as normal and it will initialize your video tag
+Next, add the `vjs-video` directive to a video tag styled for `video.js`:
 
-```
+```html
 <video class="video-js vjs-default-skin" controls preload="auto"
        width="640" height="264" poster="poster.jpg" vjs-video>
     <source src="example_video.mp4" type="video/mp4">
@@ -64,32 +66,33 @@ Add the directive to a video tag, using video.js parameters as normal and it wil
 
 ## Responsive Container
 
-The `vjs-video-container` directive implments responsive sizing for your video.js videos. By default it assumes a wide screen 16:9 ratio however any custom ratio can be supplied.
+The `vjs-video-container` directive implements responsive sizing for the 4.x version of `video.js` 4.x. A custom aspect ratio can be defined with the default being the 16:9 wide screen ratio.
 
-__NOTE:__ Responsive video comes shipped with video.js 5.0 and should be used instead of this directive; however if used with 5.0, the `vjs-video-container` aspect ratio values are passed through to `video.js`.
+__NOTE:__ The `vjs-video-container` is meant to be used with version 4.x of `video.js`; `video.js` 5.x natively supports video. If used with 5.0, the `vjs-video-container` aspect ratio values are passed through to `video.js`.
 
-The following example wraps a video.js instance within a responsive container with a ratio of 4:3.
+The following example wraps a `video.js` instance within a responsive container with a ratio of `4:3`:
 
-> When using `vjs-video-container` be sure to attach all the directive attributes (such as `vjs-setup` or `vjs-media`) as attributes to the `vjs-video-container` element rather than on the enclosed video tag. The attributes only should be attached when using in conjunction with the `vjs-video` directive on a video tag.
-
-> Also be sure to never mix usage of `vjs-video-container` with `vjs-video`. The `vjs-video` directive accepts the same directive attributes except `vjs-ratio` and shouldn't be used if a video tag is wrapped inside of a `vjs-video-container`.
-
-```
+```html
 <vjs-video-container vjs-ratio="4:3">
     <video class="video-js vjs-default-skin" controls preload="auto" poster="poster.jpg">
         <source src="example_video.mp4" type="video/mp4">
     </video>
 </vjs-video-container>
 ```
+
+> When using `vjs-video-container` be sure to attach all the directive attributes (such as `vjs-setup` or `vjs-media`) to the `vjs-video-container` element rather than on the enclosed video tag. The attributes only should be attached when using in conjunction with the `vjs-video` directive on a video tag.
+
+> Also, make sure you never mix usage of `vjs-video-container` with `vjs-video`. The `vjs-video` directive accepts the same directive attributes but shouldn't be used if a video tag is wrapped inside of a `vjs-video-container`.
+
 ## Directive Attributes
 
-The vjs-directive supports optional attributes which provide addiontional capabilities.
+The `vjs-video` directive includes additional attributes that leverage AngularJS's strengths.
 
-* vjs-setup - an alternative to using data-setup on the video element
-* vjs-media - an alternative way of defining for sources and tracks
-* vjs-ratio - defines the aspect ratio in the format width:height.
+* vjs-setup - accepts an object as alternative to using data-setup on the video element
+* vjs-media - accepts a bindable object that defines sources and tracks
+* vjs-ratio - defines the aspect ratio in the format width:height
 
-_*NOTE:*_ the `vjs-ratio` attribute support is limited to usage with the `vjs-video-container` item when using `video.js` < 5.0. In 5.0 and above, `vjs-ratio` can be used with the `vjs-video` directive as well.
+> _*NOTE:*_ the `vjs-ratio` attribute support is limited to usage with the `vjs-video-container` item when using `video.js` < 5.0. In 5.0 and above, `vjs-ratio` can be used with the `vjs-video` directive as well.
 
 ### vjs-setup
 
@@ -99,7 +102,7 @@ The following example will set the loop option for the `video.js` instance using
 
 _HTML_
 
-```
+```html
 <video class="video-js vjs-default-skin" controls preload="auto"
        width="640" height="264" vjs-video vjs-setup="options">
     <source src="http://video-js.zencoder.com/oceans-clip.mp4" type='video/mp4' />
@@ -108,7 +111,7 @@ _HTML_
 
 _JavaScript_
 
-```
+```javascript
 angular.module('app')
     .controller('MainCtrl', ['$scope', function (scope) {
 
@@ -126,14 +129,14 @@ The following example defines a poster image, two sources and one track in a sco
 
 _HTML_
 
-```
+```html
 <video class="video-js vjs-default-skin" controls preload="auto"
        width="592" height="252" vjs-video vjs-media="mediaToggle">
 </video>
 ```
 _JavaScript_
 
-```JavaScript
+```javascript
 angular.module('app')
     .controller('MainCtrl', ['$scope', function (scope) {
         scope.mediaToggle = {
@@ -158,7 +161,7 @@ angular.module('app')
             ],
             poster: 'images/screen.jpg'
         };
-        
+
         //listen for when the vjs-media object changes
         scope.$on('vjsVideoMediaChanged', function (e, data) {
             console.log('vjsVideoMediaChanged event was fired');
@@ -169,13 +172,13 @@ angular.module('app')
 
 ### vjs-ratio
 
-The `vjs-ratio` attribute only works in conjunction with the `vjs-video-container` directive when using video.js 4.x but can be used with either the `vjs-video` or `vjs-video-container` directives when using version 5 of video.js. The value should list width and then height separated by a `:` `(w:h)`. The value can be the actual width and height or the least common denominator such as `16:9`.
+The `vjs-ratio` attribute only works in conjunction with the `vjs-video-container` directive when using `video.js` 4.x but can be used with either the `vjs-video` or `vjs-video-container` directives when using version 5 of `video.js.` The value should list width and then height separated by a `:` `(w:h)`. The value can be the actual width and height or the least common denominator such as `16:9`.
 
-## Getting a reference to the videojs instance
+## Getting a reference to the video.js instance
 
-There are times will you will want to get access to the video object that `video.js` creates. The vjs directive dispatches an event after initialization and can be accessed by listening on the scope for the `vjsVideoReady` event. 
+There are times you will want to get access to the video object that `video.js` creates. The `vjs-video` directive dispatches an event after initialization and can be accessed by listening on the scope for the `vjsVideoReady` event.
 
-```
+```javascript
 angular.module('app')
     .controller('MainCtrl', ['$scope', function (scope) {
         scope.$on('vjsVideoReady', function (e, data) {
