@@ -16,6 +16,10 @@
                 window.videojs.VERSION : '0.0.0';
     }
 
+    function isMediaElement(element) {
+        return element[0].nodeName === 'VIDEO' || element[0].nodeName === 'AUDIO';
+    }
+
     module.controller('VjsVideoController', ['$scope', function ($scope) {
         var self = this;
 
@@ -37,10 +41,10 @@
 
                 vid = videos[0];
             } else {
-                if (element[0].nodeName === 'VIDEO') {
+                if (isMediaElement(element)) {
                     vid = element[0];
                 } else {
-                    throw new Error('directive must be attached to a video tag!');
+                    throw new Error('directive must be attached to a video or audio tag!');
                 }
             }
 
@@ -190,7 +194,7 @@
             var opts = params.vjsSetup || {},
                 ratio = params.vjsRatio,
                 isValidContainer =
-                    ((element[0].nodeName !== 'VIDEO') && !getVersion().match(/^5\./)) ? true : false,
+                    (!isMediaElement(element) && !getVersion().match(/^5\./)) ? true : false,
                 mediaWatcher;
 
             if (!window.videojs) {

@@ -9,6 +9,7 @@ describe('Directive: vjs.directive.js', function () {
     var vidStr = "<video vjs-video></video>",
         vidWithIdStr = "<video id='vidId' vjs-video></video>",
         multipleVidStr = "<div><video vjs-video></video><video vjs-video></video></div>",
+        audioStr = "<audio vjs-video></audio>",
         nonVidStr = "<div vjs-video>",
         vidContainerStr = "<div vjs-video-container><video></video></div>",
         vidElementContainerStr = "<vjs-video-container><video></video></vjs-video-container>",
@@ -47,6 +48,12 @@ describe('Directive: vjs.directive.js', function () {
         it('should attach videojs to the video tag', function () {
             //videojs should add at vjs-tech class to the element
             var el = compileAndLink(vidStr, scope);
+            expect(el.hasClass('vjs-tech')).to.be.true;
+        });
+
+        it('should attach videojs to the audio tag', function () {
+            //videojs should add at vjs-tech class to the element
+            var el = compileAndLink(audioStr, scope);
             expect(el.hasClass('vjs-tech')).to.be.true;
         });
 
