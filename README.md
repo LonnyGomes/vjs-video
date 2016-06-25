@@ -45,7 +45,7 @@ Next include `angular`, `video.js`, the `vjs-video` directive and it's correspon
 
 ## Basic usage
 
-The `vjs-video` directive is designed to be non-invasive; to use it, include `vjs-video` as a dependency and add the directive to a video tag styled for `video.js`.
+The `vjs-video` directive is designed to be non-invasive; to use it, include `vjs-video` as a dependency and add the directive to a video or audio tag styled for `video.js`.
 
 
 First include `vjs-video` as a dependency within your angular app:
@@ -55,7 +55,7 @@ angular.module('app', [ 'vjs.video']);
 
 ```
 
-Next, add the `vjs-video` directive to a video tag styled for `video.js`:
+Next, add the `vjs-video` directive to a video or audio tag styled for `video.js`:
 
 ```html
 <video class="video-js vjs-default-skin" controls preload="auto"
@@ -80,9 +80,9 @@ The following example wraps a `video.js` instance within a responsive container 
 </vjs-video-container>
 ```
 
-> When using `vjs-video-container` be sure to attach all the directive attributes (such as `vjs-setup` or `vjs-media`) to the `vjs-video-container` element rather than on the enclosed video tag. The attributes only should be attached when using in conjunction with the `vjs-video` directive on a video tag.
+> When using `vjs-video-container` be sure to attach all the directive attributes (such as `vjs-setup` or `vjs-media`) to the `vjs-video-container` element rather than on the enclosed video or audio tag. The attributes only should be attached when using in conjunction with the `vjs-video` directive on a video or audio tag.
 
-> Also, make sure you never mix usage of `vjs-video-container` with `vjs-video`. The `vjs-video` directive accepts the same directive attributes but shouldn't be used if a video tag is wrapped inside of a `vjs-video-container`.
+> Also, make sure you never mix usage of `vjs-video-container` with `vjs-video`. The `vjs-video` directive accepts the same directive attributes but shouldn't be used if a video or audio tag is wrapped inside of a `vjs-video-container`.
 
 ## Directive Attributes
 
