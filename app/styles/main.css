@@ -27,6 +27,15 @@ body {
 h3 {
     font-family: 'Roboto Condensed', sans-serif;
     margin-bottom: 4px;
+    color: #5c5c5c;
+}
+
+p {
+    font-size: 20px;
+}
+
+.intro-text {
+    margin-top: 25px;
 }
 
 .navbar {
