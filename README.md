@@ -208,6 +208,12 @@ Running `grunt test` will run the unit tests with karma.
 
 ## Release History
 
+**_v0.1.6_**
+
+* added support for using `vjs-video` with the audio tag; contribution by @cvn (#36)
+* updated documentation to fix typos and better explain how `vjs-video` works (#27)
+
+
 **_v0.1.5_**
 
 * added player object to `vjsVideoReady` callback and deprecated the `vid` object
