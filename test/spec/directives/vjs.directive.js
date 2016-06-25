@@ -17,8 +17,10 @@ describe('Directive: vjs.directive.js', function () {
         vidElementContainerVjsSetupStr = "<vjs-video-container><video vjs-setup></video></vjs-video-container>",
         vidElementContainerVjsMediaStr = "<vjs-video-container><video vjs-media></video></vjs-video-container>",
         vidElementContainerVjsRatioStr = "<vjs-video-container><video vjs-ratio></video></vjs-video-container>",
+        audioContainerStr = "<div vjs-video-container><audio></audio></div>",
         nonVidContainerStr = "<div vjs-video-container></div>",
         multVidsContainerStr = "<div vjs-video-container><video></video><video></video></div>",
+        multMixedContainerStr = "<div vjs-video-container><video></video><audio></audio></div>",
         vidContainerWithDimsStr = "<div vjs-video-container><video id='vid-dim' width='320' height='320'></video></div>",
         vidRatioCharStr = "<div vjs-video-container vjs-ratio='asdf'><video></video></div>",
         vidRatioInvalidStr = "<div vjs-video-container vjs-ratio='1920:1080:720'><video></video></div>",
@@ -260,10 +262,22 @@ describe('Directive: vjs.directive.js', function () {
             }).throws(Error, 'only one video can be defined within the container directive!');
         });
 
+        it('should throw an error if container defines more than one media tag', function () {
+            expect(function () {
+                compileAndLink(multMixedContainerStr, scope);
+            }).throws(Error, 'only one video can be defined within the container directive!');
+        });
+
         it('should attach videojs to the video tag', function () {
             //videojs should add at vjs-tech class to the element
             var el = compileAndLink(vidContainerStr, scope);
             expect(el.find('video').hasClass('vjs-tech')).to.be.true;
+        });
+
+        it('should attach videojs to the audio tag', function () {
+            //videojs should add at vjs-tech class to the element
+            var el = compileAndLink(audioContainerStr, scope);
+            expect(el.find('audio').hasClass('vjs-tech')).to.be.true;
         });
 
         it('should register as the vjs-video-container element', function () {

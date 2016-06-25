@@ -32,7 +32,7 @@
             }
 
             if (isContainer) {
-                videos = element[0].getElementsByTagName('video');
+                videos = element[0].querySelectorAll('video, audio');
                 if (videos.length === 0) {
                     throw new Error('video tag must be defined within container directive!');
                 } else if (videos.length > 1) {
@@ -359,7 +359,7 @@
                 var vid,
                     origContent,
                     mediaChangedHandler = function (e) {
-                        var vidEl = element[0].querySelector('video');
+                        var vidEl = element[0].querySelector('video, audio');
 
                         if (vidEl) {
                             //remove any inside contents
