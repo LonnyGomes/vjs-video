@@ -24,7 +24,7 @@ module.exports = function(config) {
       // bower:js
       'bower_components/jquery/dist/jquery.js',
       'bower_components/angular/angular.js',
-      'bower_components/video.js/dist/video-js/video.js',
+      'bower_components/video.js/dist/video.js',
       'bower_components/angular-mocks/angular-mocks.js',
       'bower_components/sinonjs/sinon.js',
       'bower_components/bootstrap-css/js/bootstrap.min.js',

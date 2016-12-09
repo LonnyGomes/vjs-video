@@ -13,7 +13,7 @@ angular.module('vjsVideoApp')
         var mediaObj = {
                 sources: [
                     {
-                        src: 'http://vjs.zencdn.net/v/oceans.mp4',
+                        src: '//s3.amazonaws.com/lonnygomes.com/assets/8269691015_hd.mp4',
                         type: 'video/mp4'
                     },
                     {
@@ -30,7 +30,7 @@ angular.module('vjsVideoApp')
                         default: true
                     }
                 ],
-                poster: 'http://vjs.zencdn.net/v/oceans.png'
+                poster: '//s3.amazonaws.com/lonnygomes.com/assets/8269691015_hd_poster.jpg'
             },
             mediaAltObj = {
                 sources: [
