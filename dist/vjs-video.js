@@ -1,19 +1,31 @@
-/*global angular */
-
 /**
  * @ngdoc directive
  * @name vjsVideoApp.directive:vjs.directive.js
  * @description
  * # vjs.directive.js
  */
-(function () {
+(function (root, factory) {
+    //module loader detection derrived from http://tinyurl.com/hs2coz2
+    if (typeof define === 'object' && define.amd) {
+        //AMD type module loader detected
+        define(['angular', 'videojs'], factory);
+    } else if (typeof module === 'object' && module.exports) {
+        //CommonJS type module loader detected
+        module.exports = factory(require('angular'), require('video.js'));
+    } else {
+        //we aren't using a module loader so angular and video.js
+        //should exist globally
+        //also, we don't need to add this module to global space
+        factory(root.angular, root.videojs);
+    }
+}(this, function (angular, videojs) {
     'use strict';
 
     var module = angular.module('vjs.video', []);
 
     function getVersion() {
-        return (window.videojs && window.videojs.VERSION) ?
-                window.videojs.VERSION : '0.0.0';
+        return (videojs && videojs.VERSION) ?
+                videojs.VERSION : '0.0.0';
     }
 
     function isMediaElement(element) {
@@ -27,7 +39,7 @@
             var vid = null,
                 videos;
 
-            if (!window.videojs) {
+            if (!videojs) {
                 throw new Error('video.js was not found!');
             }
 
@@ -197,7 +209,7 @@
                     (!isMediaElement(element) && !getVersion().match(/^5\./)) ? true : false,
                 mediaWatcher;
 
-            if (!window.videojs) {
+            if (!videojs) {
                 return null;
             }
 
@@ -221,7 +233,7 @@
                         mediaWatcher();
 
                         if (isValidContainer) {
-                            window.videojs(vid).dispose();
+                            videojs(vid).dispose();
                             $scope.$emit('vjsVideoMediaChanged');
                         } else {
                             $scope.$emit('vjsVideoMediaChanged');
@@ -231,7 +243,7 @@
             );
 
             //bootstrap videojs
-            window.videojs(vid, opts, function () {
+            videojs(vid, opts, function () {
                 if (isValidContainer) {
                     applyRatio(element, ratio);
                 }
@@ -247,7 +259,7 @@
 
             //dispose of videojs before destroying directive
             $scope.$on('$destroy', function () {
-                window.videojs(vid).dispose();
+                videojs(vid).dispose();
             });
         }
 
@@ -433,4 +445,6 @@
             }
         };
     }]);
-}());
+
+    return module;
+}));
