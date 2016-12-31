@@ -6,14 +6,14 @@
  * @description
  * # vjs.directive.js
  */
-(function () {
+(function (videojs) {
     'use strict';
 
     var module = angular.module('vjs.video', []);
 
     function getVersion() {
-        return (window.videojs && window.videojs.VERSION) ?
-                window.videojs.VERSION : '0.0.0';
+        return (videojs && videojs.VERSION) ?
+                videojs.VERSION : '0.0.0';
     }
 
     function isMediaElement(element) {
@@ -27,7 +27,7 @@
             var vid = null,
                 videos;
 
-            if (!window.videojs) {
+            if (!videojs) {
                 throw new Error('video.js was not found!');
             }
 
@@ -197,7 +197,7 @@
                     (!isMediaElement(element) && !getVersion().match(/^5\./)) ? true : false,
                 mediaWatcher;
 
-            if (!window.videojs) {
+            if (!videojs) {
                 return null;
             }
 
@@ -221,7 +221,7 @@
                         mediaWatcher();
 
                         if (isValidContainer) {
-                            window.videojs(vid).dispose();
+                            videojs(vid).dispose();
                             $scope.$emit('vjsVideoMediaChanged');
                         } else {
                             $scope.$emit('vjsVideoMediaChanged');
@@ -231,7 +231,7 @@
             );
 
             //bootstrap videojs
-            window.videojs(vid, opts, function () {
+            videojs(vid, opts, function () {
                 if (isValidContainer) {
                     applyRatio(element, ratio);
                 }
@@ -247,7 +247,7 @@
 
             //dispose of videojs before destroying directive
             $scope.$on('$destroy', function () {
-                window.videojs(vid).dispose();
+                videojs(vid).dispose();
             });
         }
 
@@ -433,4 +433,6 @@
             }
         };
     }]);
-}());
+
+    return module;
+}(videojs));
