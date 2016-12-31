@@ -1,5 +1,3 @@
-/*global angular */
-
 /**
  * @ngdoc directive
  * @name vjsVideoApp.directive:vjs.directive.js
@@ -10,16 +8,17 @@
     //module loader detection derrived from http://tinyurl.com/hs2coz2
     if (typeof define === 'object' && define.amd) {
         //AMD type module loader detected
-        define(['videojs'], factory);
+        define(['angular', 'videojs'], factory);
     } else if (typeof module === 'object' && module.exports) {
         //CommonJS type module loader detected
-        module.exports = factory(require('video.js'));
+        module.exports = factory(require('angular'), require('video.js'));
     } else {
-        //we aren't using a module loader so video.js should exist globally
+        //we aren't using a module loader so angular and video.js
+        //should exist globally
         //also, we don't need to add this module to global space
-        factory(root.videojs);
+        factory(root.angular, root.videojs);
     }
-}(this, function (videojs) {
+}(this, function (angular, videojs) {
     'use strict';
 
     var module = angular.module('vjs.video', []);
