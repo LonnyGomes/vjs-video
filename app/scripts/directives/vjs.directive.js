@@ -6,7 +6,20 @@
  * @description
  * # vjs.directive.js
  */
-(function (videojs) {
+(function (root, factory) {
+    //module loader detection derrived from http://tinyurl.com/hs2coz2
+    if (typeof define === 'object' && define.amd) {
+        //AMD type module loader detected
+        define(['videojs'], factory);
+    } else if (typeof module === 'object' && module.exports) {
+        //CommonJS type module loader detected
+        module.exports = factory(require('video.js'));
+    } else {
+        //we aren't using a module loader so video.js should exist globally
+        //also, we don't need to add this module to global space
+        factory(root.videojs);
+    }
+}(this, function (videojs) {
     'use strict';
 
     var module = angular.module('vjs.video', []);
@@ -435,4 +448,4 @@
     }]);
 
     return module;
-}(videojs));
+}));
