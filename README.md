@@ -228,6 +228,11 @@ Running `grunt test` will run the unit tests with karma.
 
 ## Release History
 
+**_v0.1.7_**
+
+* added support for CommonJS and AMD module loaders (#42)
+* updated documentation for legibility and clarity (#56)
+
 **_v0.1.6_**
 
 * added support for using `vjs-video` with the audio tag; contribution by @cvn (#36)
