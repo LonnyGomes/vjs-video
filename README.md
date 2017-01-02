@@ -6,9 +6,15 @@ An angular.js directive for video.js
 [![npm version](https://badge.fury.io/js/vjs-video.svg)](https://badge.fury.io/js/vjs-video)
 [![Bower version](https://badge.fury.io/bo/vjs-video.svg)](https://badge.fury.io/bo/vjs-video)
 
-With `vjs-video` you can easily incorporate video into your Angular projects using the robust HTML video player `video.js`. The `vjs-video` directive handles all of the complexity involved with using `video.js` within an AngularJS Single Page App (SPA) including bootstrapping the video after the DOM is ready and properly disposing of the video by calling the `video.js` dispose() function when the current Angular view is out of scope and $destroy is triggered.
+With `vjs-video`, you can easily incorporate video and audio into your Angular projects using the robust HTML video player `video.js`. 
 
-The directive also adds additional features such as data-binded media sources and a responsive video container (for `video.js` 4.x). `vjs-video` supports the current 5.x versions of `video.js` as well as the legacy 4.x release.
+The `vjs-video` directive handles all of the complexity involved with using `video.js` within an AngularJS Single Page App (SPA) and includes the following features:
+
+- bootstrapping `video.js` after the view is ready
+- properly disposing the video when the current Angular view is out of scope
+- loading and hot swaping videos using Angular data binding
+- audio support (for video.js versions >= 4.9)
+- responsive container (for video.js 4.x versions)
 
 ## Dependencies
 
@@ -17,15 +23,32 @@ The directive also adds additional features such as data-binded media sources an
 
 ## Installation
 
-## Bower Install
+The `vjs-video` directive avaible via both npm and bower.
 
-The recommended method for installing `vjs-video` is via bower however it also is available in npm.
+## npm
+
+Use npm to install `vjs-video` and all of it's dependencies.
+
+```bash
+npm install --save angular video.js vjs-video
+```
+
+You then can import the directive manually in a script tag or with your module loader of choice. 
+
+> See [here](https://github.com/LonnyGomes/vjs-video-webpack-example) for an example of using `vjs-video` with webpack.
+
+## Bower
+
+The `vjs-video` is available via bower with built in dependencies for `video.js` and `angular`. Be sure to run `npm install -g bower` if you don't already have bower installed then run the following to install `vjs-video` into your project.
 
 ```bash
 bower install vjs-video --save
 ```
+> If you leverage [wiredep](https://github.com/stephenplusplus/grunt-wiredep) in your build workflow, all the required script and stylesheet includes are automatically injected into your html file.
 
-Next include `angular`, `video.js`, the `vjs-video` directive and it's corresponding css.
+## Manual Install
+
+Download the [latest vjs-video build](https://raw.githubusercontent.com/LonnyGomes/vjs-video/master/dist/vjs-video.min.js) as well as [Angular](https://angularjs.org) and [video.js](http://videojs.com). Then, include `angular`, `video.js`, and `vjs-video` as script tags along with it's corresponding css into your HTML page.
 
 ```html
 <html ng-app="app">
@@ -39,9 +62,6 @@ Next include `angular`, `video.js`, the `vjs-video` directive and it's correspon
 </body>
 </html>
 ```
-
-> If you leverage [wiredep](https://github.com/stephenplusplus/grunt-wiredep) in your build workflow, all the required script and stylesheet includes are automatically injected into your html file.
-
 
 ## Basic usage
 
