@@ -6,7 +6,7 @@ An angular.js directive for video.js
 [![npm version](https://badge.fury.io/js/vjs-video.svg)](https://badge.fury.io/js/vjs-video)
 [![Bower version](https://badge.fury.io/bo/vjs-video.svg)](https://badge.fury.io/bo/vjs-video)
 
-With `vjs-video`, you can easily incorporate video and audio into your Angular projects using the robust HTML video player `video.js`. 
+With `vjs-video`, you can easily incorporate video and audio into your Angular projects using the robust HTML video player `video.js`.
 
 The `vjs-video` directive handles all of the complexity involved with using `video.js` within an AngularJS Single Page App (SPA) and includes the following features:
 
@@ -27,13 +27,13 @@ The `vjs-video` directive avaible via both npm and bower.
 
 ## npm
 
-Use npm to install `vjs-video` and all of it's dependencies.
+Use npm to install `vjs-video`. The angular and video.js modules will also be installed as dependencies if they aren't already defined.
 
 ```bash
-npm install --save angular video.js vjs-video
+npm install --save vjs-video
 ```
 
-You then can import the directive manually in a script tag or with your module loader of choice. 
+You then can import the directive manually in a script tag or with your module loader of choice.
 
 > See [here](https://github.com/LonnyGomes/vjs-video-webpack-example) for an example of using `vjs-video` with webpack.
 
@@ -227,6 +227,12 @@ Run `grunt` for building and `grunt serve` for preview.
 Running `grunt test` will run the unit tests with karma.
 
 ## Release History
+
+**_v0.1.8_**
+
+* fixed error where v0.1.7 failed to include proper minified files (#58)
+* added `video.js` and `angular` dependencies to the package.json (#59)
+* updated README regaurding dependencies on `video.js` and `angular`
 
 **_v0.1.7_**
 
