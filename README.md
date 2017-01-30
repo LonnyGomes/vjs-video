@@ -46,6 +46,65 @@ bower install vjs-video --save
 ```
 > If you leverage [wiredep](https://github.com/stephenplusplus/grunt-wiredep) in your build workflow, all the required script and stylesheet includes are automatically injected into your html file.
 
+## RequireJS
+
+**scripts/main.js**
+```js
+requirejs.config({
+    //By default load any module IDs from js/lib
+    baseUrl: 'bower_components',
+    shim: {
+        angular: {
+            exports: 'angular'
+        }
+    },
+    paths: {
+        angular: 'angular/angular',
+        videojs: 'video.js/dist/video-js/video',
+        'vjs-video': '../scripts/directives/vjs.directive'
+    }
+});
+```
+
+**index.html**
+```html
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My Sample Project</title>
+        <!-- data-main attribute tells require.js to load
+             scripts/main.js after require.js loads. -->
+        <link rel="stylesheet" href="bower_components/video.js/dist/video-js/video-js.css" />
+        <script src="bower_components/requirejs/require.js"></script>
+    </head>
+    <body ng-app="app" ng-controller="MainCtrl">
+        <h1>My Sample Project</h1>
+
+        <video id="example_video_1" class="video-js vjs-default-skin" controls preload="auto" width="640" height="264" poster="//s3.amazonaws.com/lonnygomes.com/assets/8269691015_hd_poster.jpg" vjs-video>
+            <source src="//s3.amazonaws.com/lonnygomes.com/assets/8269691015_hd.mp4" type='video/mp4' />
+            <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+            </p>
+        </video>
+
+        <script>
+        require(['scripts/main'], function () {
+            require(['angular', 'vjs-video'], function (angular) {
+                angular.module('app', ['vjs.video'])
+                    .controller('MainCtrl', ['$scope', function (scope) {
+                        scope.$on('vjsVideoReady', function(e, data) {
+                            //data contains `id`, `vid`, `player` and `controlBar`
+                            console.log('video id:' + data.id);
+                            console.log('video.js player instance:' + data.player);
+                        });
+                    }]);
+            });
+        })
+        </script>
+    </body>
+</html>
+
+```
+
 ## Manual Install
 
 Download the [latest vjs-video build](https://raw.githubusercontent.com/LonnyGomes/vjs-video/master/dist/vjs-video.min.js) as well as [Angular](https://angularjs.org) and [video.js](http://videojs.com). Then, include `angular`, `video.js`, and `vjs-video` as script tags along with it's corresponding css into your HTML page.
