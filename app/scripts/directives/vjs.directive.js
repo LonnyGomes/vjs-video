@@ -6,7 +6,7 @@
  */
 (function (root, factory) {
     //module loader detection derrived from http://tinyurl.com/hs2coz2
-    if (((typeof define === 'object') || (typeof define === 'function')) && define.amd) {
+    if ((typeof define).match(/^(object|function)$/) && define.amd) {
         //AMD type module loader detected
         define(['angular', 'videojs'], factory);
     } else if (typeof module === 'object' && module.exports) {
