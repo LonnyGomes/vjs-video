@@ -39,7 +39,7 @@ You then can import the directive manually in a script tag or with your module l
 
 ## Bower
 
-The `vjs-video` is available via bower with built in dependencies for `video.js` and `angular`. Be sure to run `npm install -g bower` if you don't already have bower installed then run the following to install `vjs-video` into your project.
+The `vjs-video` directive is available via bower with built in dependencies for `video.js` and `angular`. Be sure to run `npm install -g bower` if you don't already have bower installed then run the following to install `vjs-video` into your project.
 
 ```bash
 bower install vjs-video --save
@@ -47,6 +47,8 @@ bower install vjs-video --save
 > If you leverage [wiredep](https://github.com/stephenplusplus/grunt-wiredep) in your build workflow, all the required script and stylesheet includes are automatically injected into your html file.
 
 ## RequireJS
+
+The AMD module loading pattern employed by [require.js](http://requirejs.org) is supported by `vjs-video` but you must shim `angular` and define `videojs` as a path as seen in the following example.
 
 **scripts/main.js**
 ```js
@@ -72,8 +74,6 @@ requirejs.config({
 <html>
     <head>
         <title>My Sample Project</title>
-        <!-- data-main attribute tells require.js to load
-             scripts/main.js after require.js loads. -->
         <link rel="stylesheet" href="bower_components/video.js/dist/video-js/video-js.css" />
         <script src="bower_components/requirejs/require.js"></script>
     </head>
@@ -93,12 +93,10 @@ requirejs.config({
                     .controller('MainCtrl', ['$scope', function (scope) {
                         scope.$on('vjsVideoReady', function(e, data) {
                             //data contains `id`, `vid`, `player` and `controlBar`
-                            console.log('video id:' + data.id);
-                            console.log('video.js player instance:' + data.player);
                         });
                     }]);
             });
-        })
+        });
         </script>
     </body>
 </html>
@@ -286,6 +284,11 @@ Run `grunt` for building and `grunt serve` for preview.
 Running `grunt test` will run the unit tests with karma.
 
 ## Release History
+
+**_v0.1.9_**
+
+* fixed bug that broke RequireJS support (#61)
+* added documentation for using RequireJS with `vjs-video`
 
 **_v0.1.8_**
 
