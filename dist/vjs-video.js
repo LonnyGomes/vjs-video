@@ -8,7 +8,7 @@
     //module loader detection derrived from http://tinyurl.com/hs2coz2
     if ((typeof define).match(/^(object|function)$/) && define.amd) {
         //AMD type module loader detected
-        define(['angular', 'videojs'], factory);
+        define(['angular', 'video.js'], factory);
     } else if (typeof module === 'object' && module.exports) {
         //CommonJS type module loader detected
         module.exports = factory(require('angular'), require('video.js'));
