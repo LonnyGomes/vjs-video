@@ -260,6 +260,10 @@ Running `grunt test` will run the unit tests with karma.
 
 ## Release History
 
+**_v0.1.10_**
+
+* fixes regression which broke webpack support (#64)
+
 **_v0.1.9_**
 
 * fixed bug that broke RequireJS support (#61)
