@@ -89,8 +89,8 @@ Download the [latest vjs-video build](https://raw.githubusercontent.com/LonnyGom
   </head>
   <body ng-app="app">
     <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/video.js/dist/video-js/video.js"></script>
-    <script src="bower_components/vjs-video/dist/vjs.directive.js"></script>
+    <script src="bower_components/video.js/dist/video.js"></script>
+    <script src="bower_components/vjs-video/dist/vjs-video.js"></script>
 </body>
 </html>
 ```
