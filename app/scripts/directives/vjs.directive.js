@@ -243,19 +243,21 @@
             );
 
             //bootstrap videojs
-            videojs(vid, opts, function () {
+            var player = videojs(vid, opts, function () {
                 if (isValidContainer) {
                     applyRatio(element, ratio);
                 }
+            });
 
+            if(player){
                 //emit ready event with reference to video
                 $scope.$emit('vjsVideoReady', {
                     id: vid.getAttribute('id'),
-                    vid: this,
-                    player: this,
-                    controlBar: this.controlBar
+                    vid: player,
+                    player: player,
+                    controlBar: player.controlBar
                 });
-            });
+            }
 
             //dispose of videojs before destroying directive
             $scope.$on('$destroy', function () {
