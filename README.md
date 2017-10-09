@@ -261,6 +261,12 @@ Running `grunt test` will run the unit tests with karma.
 
 ## Release History
 
+**_v0.1.11_**
+
+* formatted code with prettier (#77)
+* fixed issue where vjs-video did not work with video-js-contrib-ads; contribution by @MZeeshanSiddique (#75)
+* updated filepaths in README; contribution by @tiagomsmagalhaes
+
 **_v0.1.10_**
 
 * fixes regression which broke webpack support (#64)
