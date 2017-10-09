@@ -8,8 +8,4 @@
  *
  * Main module of the application.
  */
-angular
-    .module('vjsVideoApp', [
-        'vjs.video',
-        'gist'
-    ]);
+angular.module('vjsVideoApp', ['vjs.video', 'gist']);

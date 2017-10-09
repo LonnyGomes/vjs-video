@@ -6,14 +6,16 @@
  * # MainCtrl
  * Controller of the vjsVideoApp
  */
-angular.module('vjsVideoApp')
-    .controller('MainCtrl', ['$scope', function (scope) {
+angular.module('vjsVideoApp').controller('MainCtrl', [
+    '$scope',
+    function(scope) {
         'use strict';
 
         var mediaObj = {
                 sources: [
                     {
-                        src: '//s3.amazonaws.com/lonnygomes.com/assets/8269691015_hd.mp4',
+                        src:
+                            '//s3.amazonaws.com/lonnygomes.com/assets/8269691015_hd.mp4',
                         type: 'video/mp4'
                     },
                     {
@@ -30,26 +32,31 @@ angular.module('vjsVideoApp')
                         default: true
                     }
                 ],
-                poster: '//s3.amazonaws.com/lonnygomes.com/assets/8269691015_hd_poster.jpg'
+                poster:
+                    '//s3.amazonaws.com/lonnygomes.com/assets/8269691015_hd_poster.jpg'
             },
             mediaAltObj = {
                 sources: [
                     {
-                        src: 'http://html5videoformatconverter.com/data/images/happyfit2.mp4',
+                        src:
+                            'http://html5videoformatconverter.com/data/images/happyfit2.mp4',
                         type: 'video/mp4'
                     },
                     {
-                        src: 'http://html5videoformatconverter.com/data/images/happyfit2.webm',
+                        src:
+                            'http://html5videoformatconverter.com/data/images/happyfit2.webm',
                         type: 'video/webm'
                     }
                 ],
                 tracks: [],
-                poster: 'http://html5videoformatconverter.com/data/images/screen.jpg'
+                poster:
+                    'http://html5videoformatconverter.com/data/images/screen.jpg'
             },
             audioMediaObj = {
                 sources: [
                     {
-                        src: 'http://s3.amazonaws.com/lonnygomes.com/assets/DJ-MassDefect-Fado.mp3',
+                        src:
+                            'http://s3.amazonaws.com/lonnygomes.com/assets/DJ-MassDefect-Fado.mp3',
                         type: 'audio/mp3'
                     }
                 ],
@@ -62,22 +69,19 @@ angular.module('vjsVideoApp')
                         default: true
                     }
                 ],
-                poster: 'http://s3.amazonaws.com/lonnygomes.com/assets/mass_defect_poster.jpg'
+                poster:
+                    'http://s3.amazonaws.com/lonnygomes.com/assets/mass_defect_poster.jpg'
             },
             isToggled = false;
 
-        this.awesomeThings = [
-            'HTML5 Boilerplate',
-            'AngularJS',
-            'Karma'
-        ];
+        this.awesomeThings = ['HTML5 Boilerplate', 'AngularJS', 'Karma'];
 
-        scope.toggleMedia = function () {
+        scope.toggleMedia = function() {
             isToggled = !isToggled;
-            scope.mediaToggle = (isToggled) ? mediaObj : mediaAltObj;
+            scope.mediaToggle = isToggled ? mediaObj : mediaAltObj;
         };
 
-        scope.toggleAudio = function () {
+        scope.toggleAudio = function() {
             scope.mediaToggle = audioMediaObj;
         };
 
@@ -85,7 +89,7 @@ angular.module('vjsVideoApp')
             loop: true
         };
 
-        scope.isSmallScreen = function () {
+        scope.isSmallScreen = function() {
             return $(window).width() < 650 ? true : false;
         };
 
@@ -93,7 +97,8 @@ angular.module('vjsVideoApp')
 
         scope.mediaToggle = mediaAltObj;
 
-        scope.$on('vjsVideoReady', function (e, data) {
+        scope.$on('vjsVideoReady', function(e, data) {
             //data contains `id` and `vid`
         });
-    }]);
+    }
+]);
