@@ -48,13 +48,15 @@
     "karma-mocha-reporter": "^1.1.1",
     "karma-ng-html2js-preprocessor": "^0.1.2",
     "mocha": "^2.2.5",
+    "prettier": "1.7.4",
     "time-grunt": "^1.0.0"
   },
   "engines": {
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt test",
+    "prettier": "prettier --write \"{app,test}/**/*.js\""
   },
   "keywords": [
     "angular",
