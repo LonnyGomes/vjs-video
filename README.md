@@ -5,6 +5,7 @@ An angular.js directive for video.js
 [![Build Status](https://travis-ci.org/LonnyGomes/vjs-video.svg)](https://travis-ci.org/LonnyGomes/vjs-video)
 [![npm version](https://badge.fury.io/js/vjs-video.svg)](https://badge.fury.io/js/vjs-video)
 [![Bower version](https://badge.fury.io/bo/vjs-video.svg)](https://badge.fury.io/bo/vjs-video)
+[![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
 With `vjs-video`, you can easily incorporate video and audio into your Angular projects using the robust HTML video player `video.js`.
 
@@ -252,7 +253,7 @@ The second parameter of the callback is a data object which contains the followi
 
 ## Build & development
 
-Run `grunt` for building and `grunt serve` for preview.
+Run `grunt` for building and `grunt serve` for preview. All code modifications should be run through prettier by using an IDE pluggin or by running `npm run prettier`.
 
 ## Testing
 
