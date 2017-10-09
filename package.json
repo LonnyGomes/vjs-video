@@ -55,7 +55,8 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt test",
+    "prettier": "prettier --write \"{app,test}/**/*.js\""
   },
   "keywords": [
     "angular",
