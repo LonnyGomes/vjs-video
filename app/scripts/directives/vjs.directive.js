@@ -22,9 +22,28 @@
     'use strict';
 
     var module = angular.module('vjs.video', []);
+    var LEGACY_VERSION = 4;
 
     function getVersion() {
         return videojs && videojs.VERSION ? videojs.VERSION : '0.0.0';
+    }
+
+    function getMajorVersion() {
+        var majorNum = 0;
+        var versionRegex = /^(\d+)\./.exec(getVersion());
+
+
+        if (!versionRegex) {
+            return 0;
+        }
+
+        if (versionRegex && versionRegex.length >= 2) {
+            if (!isNaN(versionRegex[1])){
+                majorNum = Number(versionRegex[1]);
+            }
+        }
+
+        return majorNum;
     }
 
     function isMediaElement(element) {
@@ -238,7 +257,7 @@
                 var opts = params.vjsSetup || {},
                     ratio = params.vjsRatio,
                     isValidContainer =
-                        !isMediaElement(element) && !getVersion().match(/^5\./)
+                        !isMediaElement(element) && (getMajorVersion() <= LEGACY_VERSION)
                             ? true
                             : false,
                     mediaWatcher;
@@ -339,8 +358,8 @@
                         init = function() {
                             vid = ctrl.getVidElement(element);
 
-                            //check if video.js version 5.x is running
-                            if (getVersion().match(/^5\./)) {
+                            //check if video.js version > 4.x is running
+                            if (getMajorVersion() > LEGACY_VERSION) {
                                 //if vjsRatio is defined,
                                 //add it to the vjsSetup options
                                 if (ctrl.vjsRatio) {
@@ -470,8 +489,8 @@
                                 );
                             }
 
-                            //check if video.js version 5.x is running
-                            if (getVersion().match(/^5\./)) {
+                            //check if video.js version > 4.x is running
+                            if (getMajorVersion() > LEGACY_VERSION) {
                                 if (ctrl.vjsRatio) {
                                     if (!ctrl.vjsSetup) {
                                         ctrl.vjsSetup = {};
